@@ -1,14 +1,45 @@
-Verbaende: 713|885
+verbände selector: 706|881
 
-Thueringen: 606|1765
+thueringen: 579|1765
 
-Sachsen-Anhalt: 591|1708
+sachsen-anhalt: 586|1718
 
-Sachsen: 554|1654
+sachsen: 533|1675
 
-2 Wochen spaeter: 2525|1395
+calendar button: 2323|900
 
-Such Button: 1065|1177
+2 wochen spaeter: 2524|1385
 
-Calender Button: 2373|892
+search button: 1060|1168
+
+290 runter fürs erste turnier 
+
+150 runter für das nächste turnier (also jedes turnier dann)
+
+(hier hochscrollen, also anfang der seite [1000 hoch oder so])
+500 runter für platzanlage des turniers (dann klicken)
+
+links von PLZ und Ort: 867|1441 (halten um auszuwählen)
+
+rechts von PLZ und Ort: 1389|1441 (halten um auszuwählen)
+
+links von straße : 867|1513 (halten um auszuwählen)
+
+rechts von straße : 1389|1513 (halten um auszuwählen)
+
+links vom termin: 897|936 (halten um auszuwählen)
+
+rechts vom termin: 1420|936 (halten um auszuwählen)
+
+links vom meldebeginn: 952|769 (halten um auszuwählen)
+
+rechts vom meldebeginn: 1417|769 (halten um auszuwählen)
+
+links vom meldeschluss: 962|843 (halten um auszuwählen)
+
+rechts vom meldeschluss: 1415|843 (halten um auszuwählen)
+
+links von der auslosung: 1000|924 (halten um auszuwählen)
+
+rechts von der auslosung: 1415|924 (halten um auszuwählen)
 
