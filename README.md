@@ -4,11 +4,28 @@ This is the **unofficial** API for retrieving relevant tournament data of **tenn
 
 > ⚠️ **NOTE:** The API is currently under **active development**!  
 
-## 🌍 Supported Associations  
-✅ **Currently Supported:**  
-- Saxony 🇩🇪  
-- Saxony-Anhalt 🇩🇪  
-- Thuringia 🇩🇪  
+## 🌍 Regions
+### Supported ones ✅
+- Saxony (STV)  
+- Saxony-Anhalt (TSA)
+- Thuringia (TTV)
+### Unsupported ones ❌
+- Mecklenburg Western Pomerania (TMV)
+- Württemberg (WTB)
+- Westphalia (WTV)
+- Schleswig-Holstein (SLH)
+- Saarland (STB)
+- Rhineland-Palatinate (RPF)
+- Tennis Association Northwest (NWE)
+- Lower Saxony-Bremen (TNB)
+- Lower Rhinelan (TVN)
+- Middle Rhine (TVM)
+- Hesse (HTV)
+- Hamburg (HAM)
+- Berlin-Brandenburg (TVBB)
+- Bavaria (BTV)
+- Baden (BAD)
+- German Tennis Association (DTB)
 
 🔜 **More regions will be added in the future!**  
 
