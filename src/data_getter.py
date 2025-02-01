@@ -2,6 +2,7 @@ import pyautogui as pag
 import keyboard as kb
 import pyperclip
 import constants
+import json
 from time import sleep
 from typing import Dict, Tuple
 
@@ -61,6 +62,6 @@ def get_tournament_dates() -> Dict[str, str]:
 
 while True:
     if kb.is_pressed("a"):
-        tournament_data = get_tournament_location_and_organizer() | get_tournament_dates() | get_tournament_name()
+        tournament_data = json.dumps(get_tournament_location_and_organizer() | get_tournament_dates() | get_tournament_name())
         print(tournament_data)
         sleep(0.5)
