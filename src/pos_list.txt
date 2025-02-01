@@ -1,4 +1,7 @@
 verbände selector: 706|881
+100 y runter für um in den selector reinzukommen
+    -> 50 runter scrollen, um runter zu kommen
+
 
 thueringen: 579|1765
 
@@ -42,4 +45,8 @@ rechts vom meldeschluss: 1415|843 (halten um auszuwählen)
 links von der auslosung: 1000|924 (halten um auszuwählen)
 
 rechts von der auslosung: 1415|924 (halten um auszuwählen)
+
+links vom turnier Titel: 276|797
+
+rechts vom turnier titel: 2204|809
 
