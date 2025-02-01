@@ -2,7 +2,6 @@ verbände selector: 706|881
 100 y runter für um in den selector reinzukommen
     -> 50 runter scrollen, um runter zu kommen
 
-
 thueringen: 579|1765
 
 sachsen-anhalt: 586|1718
@@ -49,4 +48,20 @@ rechts von der auslosung: 1415|924 (halten um auszuwählen)
 links vom turnier Titel: 276|797
 
 rechts vom turnier titel: 2204|809
+
+links vom verein: 297|1357
+
+rechts vom verein: 1486|1349
+
+melde start rechts: 1417|1012
+
+melde start links: 825|1010
+
+meldeschluss links: 788|1103
+
+meldeschluss rechts: 1410|1089
+
+auslosung links : 900|1179
+
+auslosung rechts: 1403|1168
 
