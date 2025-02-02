@@ -41,3 +41,15 @@ URL : 1347|125
 
 page back button: 38|108
 
+Registration start left: 722|880
+
+Registration start right: 1403|876
+
+registration start left: 691|985
+
+registration start right: 1413|988
+
+draw date left: 695|1097
+
+draw date right: 1406|1088
+
