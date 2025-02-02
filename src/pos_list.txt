@@ -1,67 +1,43 @@
-verb‰nde selector: 706|881
-100 y runter f¸r um in den selector reinzukommen
-    -> 50 runter scrollen, um runter zu kommen
+Search Tournaments Button: 2452|1508
 
-thueringen: 579|1765
+nach dem scrollen, um nur turniere zu sehen 1130 runter 
+Show Tournament Button: 2480|507
+    -> dann 380 runter f√ºr das n√§chste turnier
 
-sachsen-anhalt: 586|1718
+Left from tournament amount : 2553|1767
 
-sachsen: 533|1675
+Right from tournament amount: 2719|1767
 
-calendar button: 2323|900
+Left from tournament title: 88|763
 
-2 wochen spaeter: 2524|1385
+Right from tournament title : 2377|763
 
-search button: 1060|1168
+Left from tournament date: 701|1135
 
-290 runter f¸rs erste turnier 
+Right from tournament date: 1293|1135
 
-150 runter f¸r das n‰chste turnier (also jedes turnier dann)
+Left from registration end: 701|1241
 
-(hier hochscrollen, also anfang der seite [1000 hoch oder so])
-500 runter f¸r platzanlage des turniers (dann klicken)
+Right from registration end: 1293|1244
 
-links von PLZ und Ort: 867|1441 (halten um auszuw‰hlen)
+Left from draw date: 701|1357
 
-rechts von PLZ und Ort: 1389|1441 (halten um auszuw‰hlen)
+Right from draw date: 1349|1345
 
-links von straﬂe : 867|1513 (halten um auszuw‰hlen)
+-> 2190 hoch von ganz unten bei der website, um anzukommen
+Court facility Button: 2648|957
 
-rechts von straﬂe : 1389|1513 (halten um auszuw‰hlen)
+Left from tournament location: 654|1202
 
-links vom termin: 897|936 (halten um auszuw‰hlen)
+Right from tournament location: 1390|1195
 
-rechts vom termin: 1420|936 (halten um auszuw‰hlen)
+Left from tournament street: 647|1320
 
-links vom meldebeginn: 952|769 (halten um auszuw‰hlen)
+Right from tournament street: 1393|1314
 
-rechts vom meldebeginn: 1417|769 (halten um auszuw‰hlen)
+Court facility button: 2648|954
 
-links vom meldeschluss: 962|843 (halten um auszuw‰hlen)
+URL : 1347|125
 
-rechts vom meldeschluss: 1415|843 (halten um auszuw‰hlen)
-
-links von der auslosung: 1000|924 (halten um auszuw‰hlen)
-
-rechts von der auslosung: 1415|924 (halten um auszuw‰hlen)
-
-links vom turnier Titel: 276|797
-
-rechts vom turnier titel: 2204|809
-
-links vom verein: 297|1357
-
-rechts vom verein: 1486|1349
-
-melde start rechts: 1417|1012
-
-melde start links: 825|1010
-
-meldeschluss links: 788|1103
-
-meldeschluss rechts: 1410|1089
-
-auslosung links : 900|1179
-
-auslosung rechts: 1403|1168
+page back button: 38|108
 
