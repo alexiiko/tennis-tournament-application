@@ -94,7 +94,7 @@ while True:
         # open the platform
         pag.hotkey("super", "shift", "2")
         sleep(2)
-        pag.write("https://spieler.tennis.de/group/guest/turniere")
+        pag.write("https://www.tennis.de/spielen/turniersuche.html#search")
         pag.press("enter")
 
         scroll_through_tournaments()
