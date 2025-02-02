@@ -12,6 +12,7 @@ LEFT_TOURNAMENT_AMOUNT = (2553, 1767)
 RIGHT_TOURNAMENT_AMOUNT = (2719, 1767)
 
 # tournament page
+TOURNAMENT_INFO_OFFSET = 2190  # Scroll up from the bottom of the website
 # tournament dates if no registration start is provided
 LEFT_TOURNAMENT_TITLE = (88, 763)
 RIGHT_TOURNAMENT_TITLE = (2377, 763)
