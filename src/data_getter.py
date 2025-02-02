@@ -94,8 +94,10 @@ while True:
         # open the platform
         pag.hotkey("super", "shift", "2")
         sleep(2)
-        pag.write("https://www.tennis.de/spielen/turniersuche.html#search")
+        pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
+        pag.hotkey("ctrl", "v")
         pag.press("enter")
+        sleep(2)
 
         scroll_through_tournaments()
         sleep(0.5)
