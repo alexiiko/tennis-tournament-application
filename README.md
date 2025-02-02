@@ -10,9 +10,14 @@ This is the **unofficial** API for retrieving relevant tournament data of **tenn
 ...
 
 ## 💡 Motivation  
-...
+I wanted a better way to stay informed about upcoming tennis tournaments in Germany. The existing platforms, like [tennis.de] and mybigpoint.de, don’t fully meet my expectations.
 
-Since these features don’t exist, I decided to **build them myself!** 💪  
+That’s why I decided to build my own platform—one that includes the features I need, such as:
+✅ Tournament notifications 📢
+✅ A more user-friendly UI 🎨
+✅ Better data accessibility 📊
+
+This API serves as the backbone for future projects, making tournament data easier to retrieve and use! 🚀
 
 ## 🤝 Contribution  
 👨‍💻 **Contributions are welcome!** Feel free to commit & help improve the API. 🚀  
