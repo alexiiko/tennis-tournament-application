@@ -30,4 +30,4 @@ This API serves as the backbone for future projects, making tournament data easi
 
 ## 📌 Progress Tracking  
 📋 To track the development progress, check out the **Notion Kanban Board**:  
-👉 [Progress Board](https://shorturl.at/NmLzq)  
+👉 [Progress Board](https://fearless-play-bd6.notion.site/18c17400d33a801983d3dc525004e33f?v=18c17400d33a808d863b000c23349fdb&pvs=4)  
