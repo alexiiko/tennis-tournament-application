@@ -32,12 +32,20 @@ def get_tournament_data() -> str:
 
 
     def get_tournament_dates() -> Dict[str, Dict[str, str]]:
-        tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
         # if there is registration start button (check with screenshot) then add it into here 
-        tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_END, constants.RIGHT_REGISTRATION_END)
-        tournament_draw_date = copy_text_and_return_as_variable(constants.LEFT_DRAW_DATE, constants.RIGHT_DRAW_DATE)
+        registration_start_existing = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_START_EXISTING, constants.RIGHT_REGISTRATION_START_EXISTING)
+        if registration_start_existing == "Meldebeginn":
+            tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE_RSP, constants.RIGHT_TOURNAMENT_DATE_RSP)
+            tournament_registration_start = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_START_RSP, constants.RIGHT_REGISTRATION_START_RSP)
+            tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_END_RSP, constants.RIGHT_REGISTRATION_END_RSP)
+            tournament_draw_date = copy_text_and_return_as_variable(constants.LEFT_DRAW_DATE_RSP, constants.RIGHT_DRAW_DATE_RSP)
+            return {"tournament_dates": {"tournament_date": tournament_date, "tournament_registration_start": tournament_registration_start,"tournament_registration_end": tournament_registration_end, "tournament_draw_date": tournament_draw_date}}
+        else:
+            tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
+            tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_END, constants.RIGHT_REGISTRATION_END)
+            tournament_draw_date = copy_text_and_return_as_variable(constants.LEFT_DRAW_DATE, constants.RIGHT_DRAW_DATE)
 
-        return {"tournament_dates": {"tournament_date": tournament_date, "tournament_registration_end": tournament_registration_end, "tournament_draw_date": tournament_draw_date}}
+            return {"tournament_dates": {"tournament_date": tournament_date, "tournament_registration_start": "Nicht angegeben","tournament_registration_end": tournament_registration_end, "tournament_draw_date": tournament_draw_date}}
 
 
     def get_tournament_title() -> Dict[str, str]:
@@ -92,12 +100,14 @@ while True:
         sleep(0.5)
     elif kb.is_pressed("b"):
         # open the platform
+        '''
         pag.hotkey("super", "shift", "2")
         sleep(2)
         pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
         pag.hotkey("ctrl", "v")
         pag.press("enter")
         sleep(2)
+        '''
 
         scroll_through_tournaments()
         sleep(0.5)
