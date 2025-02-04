@@ -19,6 +19,11 @@ def copy_text_and_return_as_variable(location_left: Tuple[int,int], location_rig
 
 
 def get_tournament_data() -> str:
+    pag.hotkey("ctrl", "-")
+    pag.hotkey("ctrl", "-")
+
+    sleep(1)
+
     def get_tournament_location() -> Dict[str, Dict[str, str]]:
         pag.scroll(-10000) # get to bottom of the page
         sleep(0.5)
@@ -32,7 +37,6 @@ def get_tournament_data() -> str:
 
 
     def get_tournament_dates() -> Dict[str, Dict[str, str]]:
-        # if there is registration start button (check with screenshot) then add it into here 
         registration_start_existing = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_START_EXISTING, constants.RIGHT_REGISTRATION_START_EXISTING)
         if registration_start_existing == "Meldebeginn":
             tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE_RSP, constants.RIGHT_TOURNAMENT_DATE_RSP)
@@ -42,8 +46,8 @@ def get_tournament_data() -> str:
             return {"tournament_dates": {"tournament_date": tournament_date, "tournament_registration_start": tournament_registration_start,"tournament_registration_end": tournament_registration_end, "tournament_draw_date": tournament_draw_date}}
         else:
             tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
-            tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_END, constants.RIGHT_REGISTRATION_END)
-            tournament_draw_date = copy_text_and_return_as_variable(constants.LEFT_DRAW_DATE, constants.RIGHT_DRAW_DATE)
+            tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_END, constants.RIGHT_TOURNAMENT_REGISTRATION_END)
+            tournament_draw_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DRAW_DATE, constants.RIGHT_TOURNAMENT_DRAW_DATE)
 
             return {"tournament_dates": {"tournament_date": tournament_date, "tournament_registration_start": "Nicht angegeben","tournament_registration_end": tournament_registration_end, "tournament_draw_date": tournament_draw_date}}
 
@@ -100,14 +104,17 @@ while True:
         sleep(0.5)
     elif kb.is_pressed("b"):
         # open the platform
-        '''
         pag.hotkey("super", "shift", "2")
         sleep(2)
         pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
         pag.hotkey("ctrl", "v")
         pag.press("enter")
         sleep(2)
-        '''
+        pag.hotkey("ctrl", "0")
+        pag.hotkey("ctrl", "-")
+        pag.hotkey("ctrl", "-")
+        pag.hotkey("ctrl", "-")
+        pag.hotkey("ctrl", "-")
 
         scroll_through_tournaments()
         sleep(0.5)
