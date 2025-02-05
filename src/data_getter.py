@@ -3,6 +3,7 @@ import keyboard as kb
 import pyperclip
 import constants
 import json
+import re
 from time import sleep
 from typing import Tuple, Dict
 
@@ -26,9 +27,9 @@ def get_tournament_data() -> str:
 
     def get_tournament_location() -> Dict[str, Dict[str, str]]:
         pag.scroll(-10000) # get to bottom of the page
-        sleep(0.5)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.scroll(constants.TOURNAMENT_INFO_OFFSET)
-        sleep(0.5)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.click(constants.COURT_FACILITY_BUTTON)
         tournament_plz = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_PLZ, constants.RIGHT_TOURNAMENT_PLZ)
         tournament_street = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_STREET, constants.RIGHT_TOURNAMENT_STREET)
@@ -37,12 +38,13 @@ def get_tournament_data() -> str:
 
 
     def get_tournament_dates() -> Dict[str, Dict[str, str]]:
-        registration_start_existing = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_START_EXISTING, constants.RIGHT_REGISTRATION_START_EXISTING)
+        registration_start_existing = "Meldeschluss"
+        sleep(2)
         if registration_start_existing == "Meldebeginn":
-            tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE_RSP, constants.RIGHT_TOURNAMENT_DATE_RSP)
-            tournament_registration_start = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_START_RSP, constants.RIGHT_REGISTRATION_START_RSP)
-            tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_REGISTRATION_END_RSP, constants.RIGHT_REGISTRATION_END_RSP)
-            tournament_draw_date = copy_text_and_return_as_variable(constants.LEFT_DRAW_DATE_RSP, constants.RIGHT_DRAW_DATE_RSP)
+            tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
+            tournament_registration_start = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_RSP, constants.RIGHT_TOURNAMENT_REGISTRATION_START_RSP)
+            tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_END_RSP, constants.RIGHT_TOURNAMENT_REGISTRATION_END_RSP)
+            tournament_draw_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DRAW_DATE_RSP, constants.RIGHT_TOURNAMENT_DRAW_DATE_RSP)
             return {"tournament_dates": {"tournament_date": tournament_date, "tournament_registration_start": tournament_registration_start,"tournament_registration_end": tournament_registration_end, "tournament_draw_date": tournament_draw_date}}
         else:
             tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
@@ -54,7 +56,7 @@ def get_tournament_data() -> str:
 
     def get_tournament_title() -> Dict[str, str]:
         pag.scroll(5000)
-        sleep(0.5)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         tournament_title = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_TITLE, constants.RIGHT_TOURNAMENT_TITLE)
         return {"tournament_title": tournament_title}
 
@@ -70,31 +72,32 @@ def get_tournament_data() -> str:
 
 def scroll_through_tournaments():
     pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
-    sleep(2)
-    tournament_amount = int(copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))
+    sleep(constants.SLEEP_TIME_FOR_LOADING)
+    tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT)))
     pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-    sleep(2)
+    sleep(constants.SLEEP_TIME_FOR_LOADING)
 
     for tournament_number in range(1, tournament_amount):
-        # if mehr turniere anzeigen on screen:
-        # click the mehr turniere anzeigen button 
-        # go to the top of the page 
-        # go down via the offsets
-        # else everything down below
         pag.click(constants.SHOW_TOURNAMENT_BUTTON)
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         get_tournament_data()
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.click(constants.PAGE_BACK_BUTTON)
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        pag.hotkey("ctrl", "0")
+        pag.hotkey("ctrl", "-")
+        pag.hotkey("ctrl", "-")
+        pag.hotkey("ctrl", "-")
+        pag.hotkey("ctrl", "-")
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.moveTo(constants.SEARCH_TOURNAMENTS_BUTTON)
-        sleep(2)
-        pag.scroll(5000)
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        pag.scroll(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
 
 
 while True:
@@ -105,11 +108,11 @@ while True:
     elif kb.is_pressed("b"):
         # open the platform
         pag.hotkey("super", "shift", "2")
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
         pag.hotkey("ctrl", "v")
         pag.press("enter")
-        sleep(2)
+        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.hotkey("ctrl", "0")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
