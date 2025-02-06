@@ -1,4 +1,3 @@
-import sys
 import pyautogui as pag
 import keyboard as kb
 import pyperclip
@@ -41,7 +40,7 @@ def get_tournament_data() -> str:
     def get_tournament_dates() -> Dict[str, Dict[str, str]]:
         registration_start_existing = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_EXISTING, constants.RIGHT_TOURNAMENT_REGISTRATION_START_EXISTING)
         sleep(2)
-        if registration_start_existing == "Meldebeginn":
+        if registration_start_existing == "Meldeschluss":
             tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
             tournament_registration_start = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_RSP, constants.RIGHT_TOURNAMENT_REGISTRATION_START_RSP)
             tournament_registration_end = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_END_RSP, constants.RIGHT_TOURNAMENT_REGISTRATION_END_RSP)
@@ -74,7 +73,7 @@ def get_tournament_data() -> str:
 def scroll_through_tournaments():
     pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
     sleep(constants.SLEEP_TIME_FOR_LOADING)
-    tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT)))
+    tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))) # only get the numbers out of the string
     pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
     sleep(constants.SLEEP_TIME_FOR_LOADING)
 
@@ -87,18 +86,19 @@ def scroll_through_tournaments():
         pag.moveTo(constants.SEARCH_TOURNAMENTS_BUTTON)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.hotkey("ctrl", "0")
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
         sleep(constants.SLEEP_TIME_FOR_LOADING)
-        pag.scroll(-300)
         pag.scroll(5000)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
-        pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
+        if tournament_number % 10 == 0:
+            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number - 10)
+        else:
+            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
 
 
