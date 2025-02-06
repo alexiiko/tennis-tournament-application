@@ -1,3 +1,4 @@
+import sys
 import pyautogui as pag
 import keyboard as kb
 import pyperclip
@@ -38,7 +39,7 @@ def get_tournament_data() -> str:
 
 
     def get_tournament_dates() -> Dict[str, Dict[str, str]]:
-        registration_start_existing = "Meldeschluss"
+        registration_start_existing = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_EXISTING, constants.RIGHT_TOURNAMENT_REGISTRATION_START_EXISTING)
         sleep(2)
         if registration_start_existing == "Meldebeginn":
             tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
@@ -83,6 +84,7 @@ def scroll_through_tournaments():
         get_tournament_data()
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.click(constants.PAGE_BACK_BUTTON)
+        pag.moveTo(constants.SEARCH_TOURNAMENTS_BUTTON)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.hotkey("ctrl", "0")
         sleep(constants.SLEEP_TIME_FOR_LOADING)
@@ -112,7 +114,7 @@ while True:
         pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
         pag.hotkey("ctrl", "v")
         pag.press("enter")
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(constants.SLEEP_TIME_FOR_LOADING + 3)
         pag.hotkey("ctrl", "0")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
