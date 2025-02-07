@@ -20,17 +20,13 @@ def copy_text_and_return_as_variable(location_left: Tuple[int,int], location_rig
 
 
 def get_tournament_data() -> str:
-    pag.hotkey("ctrl", "-")
-    pag.hotkey("ctrl", "-")
-
-    sleep(1)
-
     def get_tournament_location() -> Dict[str, Dict[str, str]]:
         pag.scroll(-10000) # get to bottom of the page
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(0.5)
         pag.scroll(constants.TOURNAMENT_INFO_OFFSET)
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(0.5)
         pag.click(constants.COURT_FACILITY_BUTTON)
+        sleep(1)
         tournament_plz = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_PLZ, constants.RIGHT_TOURNAMENT_PLZ)
         tournament_street = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_STREET, constants.RIGHT_TOURNAMENT_STREET)
 
@@ -39,7 +35,7 @@ def get_tournament_data() -> str:
 
     def get_tournament_dates() -> Dict[str, Dict[str, str]]:
         registration_start_existing = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_EXISTING, constants.RIGHT_TOURNAMENT_REGISTRATION_START_EXISTING)
-        sleep(2)
+        sleep(0.5)
         if registration_start_existing == "Meldeschluss":
             tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
             tournament_registration_start = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_RSP, constants.RIGHT_TOURNAMENT_REGISTRATION_START_RSP)
@@ -56,7 +52,7 @@ def get_tournament_data() -> str:
 
     def get_tournament_title() -> Dict[str, str]:
         pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(0.5)
         tournament_title = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_TITLE, constants.RIGHT_TOURNAMENT_TITLE)
         return {"tournament_title": tournament_title}
 
@@ -67,51 +63,58 @@ def get_tournament_data() -> str:
         pag.hotkey("ctrl", "c")
         return {"tournament_link": str(pyperclip.paste())}
 
+    sleep(2)
+
+    pag.hotkey("ctrl", "-")
+    pag.hotkey("ctrl", "-")
+
+    sleep(3)
+
     return json.dumps(get_tournament_title() | get_tournament_dates() | get_tournament_location() | get_tournament_link())
 
 
 def scroll_through_tournaments():
     pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
-    sleep(constants.SLEEP_TIME_FOR_LOADING)
+    sleep(2)
     tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))) # only get the numbers out of the string
     pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-    sleep(constants.SLEEP_TIME_FOR_LOADING)
+    sleep(0.5)
 
     amount_show_more_tournaments_button = round(tournament_amount / 10)
 
-    for tournament_number in range(9, tournament_amount):
-        pag.click(constants.SHOW_TOURNAMENT_BUTTON)
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+    for tournament_number in range(9, tournament_amount + 1):
+        pag.click(constants.SHOW_TOURNAMENT_BUTTON_X, constants.SHOW_TOURNAMENT_BUTTON_Y)
+        sleep(1)
         get_tournament_data()
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(1)
         pag.click(constants.PAGE_BACK_BUTTON)
         pag.moveTo(constants.SEARCH_TOURNAMENTS_BUTTON)
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(2)
         pag.hotkey("ctrl", "0")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(2)
         pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(1)
         pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(1)
         pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
+        sleep(1)
         if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
-            print(tournament_number - 1)
+            constants.SHOW_TOURNAMENT_BUTTON_Y += 10
             pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
             amount_show_more_tournaments_button -= 1 
-            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            sleep(1.5)
             pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
-            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            sleep(0.5)
             pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-            sleep(constants.SLEEP_TIME_FOR_LOADING)
-            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * (tournament_number))
-            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            sleep(0.5)
+            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
+            sleep(0.5)
             pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
-            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            sleep(1)
         else:
             continue
 
