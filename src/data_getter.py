@@ -55,7 +55,7 @@ def get_tournament_data() -> str:
 
 
     def get_tournament_title() -> Dict[str, str]:
-        pag.scroll(5000)
+        pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         tournament_title = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_TITLE, constants.RIGHT_TOURNAMENT_TITLE)
         return {"tournament_title": tournament_title}
@@ -77,7 +77,9 @@ def scroll_through_tournaments():
     pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
     sleep(constants.SLEEP_TIME_FOR_LOADING)
 
-    for tournament_number in range(1, tournament_amount):
+    amount_show_more_tournaments_button = round(tournament_amount / 10)
+
+    for tournament_number in range(9, tournament_amount):
         pag.click(constants.SHOW_TOURNAMENT_BUTTON)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         get_tournament_data()
@@ -91,15 +93,27 @@ def scroll_through_tournaments():
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
         sleep(constants.SLEEP_TIME_FOR_LOADING)
-        pag.scroll(5000)
+        pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
-        if tournament_number % 10 == 0:
-            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number - 10)
-        else:
-            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
+        pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
         sleep(constants.SLEEP_TIME_FOR_LOADING)
+        if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
+            print(tournament_number - 1)
+            pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
+            amount_show_more_tournaments_button -= 1 
+            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
+            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
+            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * (tournament_number))
+            sleep(constants.SLEEP_TIME_FOR_LOADING)
+            pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
+            sleep(constants.SLEEP_TIME_FOR_LOADING)
+        else:
+            continue
 
 
 while True:
