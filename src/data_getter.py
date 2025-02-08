@@ -103,7 +103,7 @@ def scroll_through_tournaments():
         pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
         sleep(1)
         if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
-            constants.SHOW_TOURNAMENT_BUTTON_Y += 10
+            # constants.SHOW_TOURNAMENT_BUTTON_Y += 10
             constants.SCROLL_AMOUNT_TO_TOP *= 5
             pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
             amount_show_more_tournaments_button -= 1 
@@ -127,12 +127,14 @@ while True:
         sleep(0.5)
     elif kb.is_pressed("b"):
         # open the platform
+        '''
         pag.hotkey("super", "shift", "2")
         sleep(constants.SLEEP_TIME_FOR_LOADING)
         pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
         pag.hotkey("ctrl", "v")
         pag.press("enter")
         sleep(constants.SLEEP_TIME_FOR_LOADING + 3)
+        '''
         pag.hotkey("ctrl", "0")
         pag.hotkey("ctrl", "-")
         pag.hotkey("ctrl", "-")
