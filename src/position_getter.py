@@ -5,10 +5,17 @@ from time import sleep
 
 context = input()
 
-scroll_count = 0
-scroll_count_einer = 0
+scroll_down_ten = -10
+scroll_down_one = -1
 
-scroll_count_up = 0
+scroll_up_ten = 10
+scroll_up_one = 1
+
+scroll_count_down_ten = 0
+scroll_count_down_one = 0
+
+scroll_count_up_ten = 0
+scroll_count_up_one = 0
 
 while True:
     if kb.is_pressed("a"):
@@ -26,25 +33,25 @@ while True:
         pag.moveTo(1060,1168)
 
     elif kb.is_pressed("c"):
-        pag.scroll(-10)
-        scroll_count += 1  
+        pag.scroll(scroll_down_ten)
+        scroll_count_down_ten += 1 
         sleep(0.5)
 
     elif kb.is_pressed("d"):
-        print(scroll_count)
+        print(scroll_count_down_ten)
         print()
         scroll_count = 0
         sleep(0.5)
 
     elif kb.is_pressed("e"):
-        pag.scroll(10)
-        scroll_count_up += 1 
+        pag.scroll(scroll_up_ten)
+        scroll_count_up_ten += 1 
         sleep(0.5)
 
     elif kb.is_pressed("f"):
-        print(scroll_count_up)
+        print(scroll_count_up_ten)
         print()
-        scroll_count_up = 0
+        scroll_count_up_ten = 0
         sleep(0.5)
 
     elif kb.is_pressed("g"):
@@ -52,16 +59,23 @@ while True:
         sleep(0.5)
     
     elif kb.is_pressed("h"):
-        pag.scroll(-1)
-        scroll_count_einer += 1 
+        pag.scroll(scroll_down_one)
+        scroll_count_down_one += 1 
         sleep(0.5)
 
     elif kb.is_pressed("i"):
-        print(scroll_count_einer)
+        print(scroll_count_down_one)
         print()
-        scroll_count_einer = 0
+        scroll_count_down_one = 0
         sleep(0.5)
 
     elif kb.is_pressed("j"):
-        pag.scroll(2190)
+        pag.scroll(scroll_up_one)
+        scroll_count_up_one += 1 
+        sleep(0.5)
+
+    elif kb.is_pressed("k"):
+        print(scroll_count_up_one)
+        print()
+        scroll_count_up_one = 0
         sleep(0.5)
