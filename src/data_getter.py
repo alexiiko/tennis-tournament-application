@@ -104,6 +104,7 @@ def scroll_through_tournaments():
         sleep(1)
         if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
             constants.SHOW_TOURNAMENT_BUTTON_Y += 10
+            constants.SCROLL_AMOUNT_TO_TOP *= 5
             pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
             amount_show_more_tournaments_button -= 1 
             sleep(1.5)
