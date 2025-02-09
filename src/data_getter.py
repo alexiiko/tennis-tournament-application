@@ -35,7 +35,6 @@ def get_tournament_data() -> str:
 
     def get_tournament_dates() -> Dict[str, Dict[str, str]]:
         registration_start_existing = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_EXISTING, constants.RIGHT_TOURNAMENT_REGISTRATION_START_EXISTING)
-        sleep(0.5)
         if registration_start_existing == "Meldeschluss":
             tournament_date = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_DATE, constants.RIGHT_TOURNAMENT_DATE)
             tournament_registration_start = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_REGISTRATION_START_RSP, constants.RIGHT_TOURNAMENT_REGISTRATION_START_RSP)
@@ -67,6 +66,9 @@ def get_tournament_data() -> str:
 
     pag.hotkey("ctrl", "-")
     pag.hotkey("ctrl", "-")
+    pag.hotkey("ctrl", "-")
+    pag.hotkey("ctrl", "-")
+    pag.hotkey("ctrl", "-")
 
     sleep(3)
 
@@ -74,50 +76,62 @@ def get_tournament_data() -> str:
 
 
 def scroll_through_tournaments():
+    pag.hotkey("ctrl", "0")
+    pag.hotkey("ctrl", "-")
     pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
-    sleep(2)
+    sleep(3)
     tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))) # only get the numbers out of the string
-    pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-    sleep(0.5)
 
     amount_show_more_tournaments_button = round(tournament_amount / 10)
 
     for tournament_number in range(9, tournament_amount + 1):
-        pag.click(constants.SHOW_TOURNAMENT_BUTTON_X, constants.SHOW_TOURNAMENT_BUTTON_Y)
-        sleep(1)
-        get_tournament_data()
-        sleep(1)
-        pag.click(constants.PAGE_BACK_BUTTON)
-        pag.moveTo(constants.SEARCH_TOURNAMENTS_BUTTON)
-        sleep(2)
-        pag.hotkey("ctrl", "0")
-        pag.hotkey("ctrl", "-")
-        pag.hotkey("ctrl", "-")
-        pag.hotkey("ctrl", "-")
-        pag.hotkey("ctrl", "-")
-        sleep(2)
-        pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
-        sleep(1)
-        pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-        sleep(1)
-        pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
-        sleep(1)
         if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
-            # constants.SHOW_TOURNAMENT_BUTTON_Y += 10
-            constants.SCROLL_AMOUNT_TO_TOP *= 5
-            pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
-            amount_show_more_tournaments_button -= 1 
-            sleep(1.5)
+            pag.moveTo(constants.MAP_VIEW_BUTTON)
             pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
             sleep(0.5)
-            pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
+            pag.hotkey("ctrl", "0")
+            pag.hotkey("ctrl", "-")
             sleep(0.5)
-            pag.scroll(constants.NEXT_TOURNAMENT_OFFSET * tournament_number)
+            pag.click(constants.MAP_VIEW_BUTTON)
             sleep(0.5)
-            pag.click(constants.SHOW_MORE_TOURNAMENTS_BUTTON)
-            sleep(1)
+            print("tenth tournament")
+            constants.SCROLL_AMOUNT_TO_TOP *= 5
+            amount_show_more_tournaments_button -= 1 
+            for _ in range((tournament_number * 2 + 2) + 2):
+                pag.press("tab")
+
+            pag.press("enter")
         else:
-            continue
+            print("normal tournament")
+            pag.moveTo(constants.MAP_VIEW_BUTTON)
+            pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
+            sleep(0.5)
+            pag.hotkey("ctrl", "0")
+            pag.hotkey("ctrl", "-")
+            sleep(0.5)
+            pag.click(constants.MAP_VIEW_BUTTON)
+            sleep(0.5)
+
+            for _ in range(tournament_number * 2 + 2):
+                pag.press("tab")
+
+            sleep(1)
+
+            pag.press("enter")
+            sleep(2)
+            get_tournament_data()
+            sleep(0.5)
+            pag.click(constants.PAGE_BACK_BUTTON)
+            sleep(2)
+
+
+def open_tournament_platform():
+    pag.hotkey("super", "shift", "2")
+    sleep(constants.SLEEP_TIME_FOR_LOADING)
+    pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
+    pag.hotkey("ctrl", "v")
+    pag.press("enter")
+    sleep(constants.SLEEP_TIME_FOR_LOADING + 3)
 
 
 while True:
@@ -127,19 +141,6 @@ while True:
         sleep(0.5)
     elif kb.is_pressed("b"):
         # open the platform
-        '''
-        pag.hotkey("super", "shift", "2")
-        sleep(constants.SLEEP_TIME_FOR_LOADING)
-        pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
-        pag.hotkey("ctrl", "v")
-        pag.press("enter")
-        sleep(constants.SLEEP_TIME_FOR_LOADING + 3)
-        '''
-        pag.hotkey("ctrl", "0")
-        pag.hotkey("ctrl", "-")
-        pag.hotkey("ctrl", "-")
-        pag.hotkey("ctrl", "-")
-        pag.hotkey("ctrl", "-")
-
+        open_tournament_platform()
         scroll_through_tournaments()
         sleep(0.5)
