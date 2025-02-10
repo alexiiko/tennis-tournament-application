@@ -84,8 +84,25 @@ def scroll_through_tournaments():
 
     amount_show_more_tournaments_button = round(tournament_amount / 10)
 
-    for tournament_number in range(9, tournament_amount + 1):
+    for tournament_number in range(10, tournament_amount + 1):
         if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
+            pag.hotkey("ctrl", "0")
+            pag.hotkey("ctrl", "-")
+            sleep(1)
+            pag.moveTo(constants.MAP_VIEW_BUTTON)
+            pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
+            sleep(1)
+            pag.click(constants.MAP_VIEW_BUTTON)
+            sleep(1)
+            for _ in range(tournament_number * 2 + 2):
+                pag.press("tab")
+            pag.press("enter")
+            sleep(2)
+            get_tournament_data()
+            sleep(0.5)
+            pag.click(constants.PAGE_BACK_BUTTON)
+            sleep(2)
+
             pag.moveTo(constants.MAP_VIEW_BUTTON)
             pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
             sleep(0.5)
@@ -94,15 +111,22 @@ def scroll_through_tournaments():
             sleep(0.5)
             pag.click(constants.MAP_VIEW_BUTTON)
             sleep(0.5)
-            print("tenth tournament")
             constants.SCROLL_AMOUNT_TO_TOP *= 5
             amount_show_more_tournaments_button -= 1 
-            for _ in range((tournament_number * 2 + 2) + 2):
+            for _ in range((tournament_number * 2 + 2) + 1):
                 pag.press("tab")
 
             pag.press("enter")
+
+            pag.moveTo(constants.MAP_VIEW_BUTTON)
+            pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
+            sleep(0.5)
+            pag.hotkey("ctrl", "0")
+            pag.hotkey("ctrl", "-")
+            sleep(0.5)
+            pag.click(constants.MAP_VIEW_BUTTON)
+            sleep(0.5)
         else:
-            print("normal tournament")
             pag.moveTo(constants.MAP_VIEW_BUTTON)
             pag.scroll(constants.SCROLL_AMOUNT_TO_TOP)
             sleep(0.5)
@@ -140,7 +164,6 @@ while True:
         print(tournament_data)
         sleep(0.5)
     elif kb.is_pressed("b"):
-        # open the platform
-        open_tournament_platform()
+        # open_tournament_platform()
         scroll_through_tournaments()
         sleep(0.5)
