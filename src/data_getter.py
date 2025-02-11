@@ -84,7 +84,7 @@ def scroll_through_tournaments():
 
     amount_show_more_tournaments_button = round(tournament_amount / 10)
 
-    for tournament_number in range(10, tournament_amount + 1):
+    for tournament_number in range(1, tournament_amount + 1):
         if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
             pag.hotkey("ctrl", "0")
             pag.hotkey("ctrl", "-")
