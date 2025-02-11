@@ -164,6 +164,6 @@ while True:
         print(tournament_data)
         sleep(0.5)
     elif kb.is_pressed("b"):
-        # open_tournament_platform()
+        open_tournament_platform()
         scroll_through_tournaments()
         sleep(0.5)
