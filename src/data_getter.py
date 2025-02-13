@@ -157,6 +157,9 @@ def scroll_through_tournaments():
             pag.click(constants.PAGE_BACK_BUTTON)
             sleep(2)
 
+        print(tournament_number)
+        print()
+
 
 def open_tournament_platform():
     pag.hotkey("super", "shift", "2")
