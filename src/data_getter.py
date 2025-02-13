@@ -115,7 +115,6 @@ def scroll_through_tournaments():
             sleep(0.5)
             pag.click(constants.MAP_VIEW_BUTTON)
             sleep(0.5)
-            constants.SCROLL_AMOUNT_TO_TOP *= 5
             amount_show_more_tournaments_button -= 1 
             for _ in range((tournament_number * 2 + 2) + 1):
                 pag.press("tab")
