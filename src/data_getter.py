@@ -50,7 +50,7 @@ def get_tournament_data() -> str:
 
 
     def get_tournament_title() -> Dict[str, str]:
-        pag.hotkey("fn", "left")
+        kb.press_and_release("home")
         sleep(0.5)
         tournament_title = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_TITLE, constants.RIGHT_TOURNAMENT_TITLE)
         return {"tournament_title": tournament_title}
@@ -90,11 +90,11 @@ def scroll_through_tournaments():
             pag.hotkey("ctrl", "-")
             sleep(1)
             pag.moveTo(constants.MAP_VIEW_BUTTON)
-            pag.hotkey("fn", "left")
+            kb.press_and_release("home")
             sleep(2)
             pag.scroll(-100)
             sleep(1)
-            pag.hotkey("fn", "left")
+            kb.press_and_release("home")
             sleep(2)
             pag.click(constants.MAP_VIEW_BUTTON)
             sleep(1)
@@ -108,7 +108,7 @@ def scroll_through_tournaments():
             sleep(2)
 
             pag.moveTo(constants.MAP_VIEW_BUTTON)
-            pag.hotkey("fn", "left")
+            kb.press_and_release("home")
             sleep(0.5)
             pag.hotkey("ctrl", "0")
             pag.hotkey("ctrl", "-")
@@ -122,7 +122,7 @@ def scroll_through_tournaments():
             pag.press("enter")
 
             pag.moveTo(constants.MAP_VIEW_BUTTON)
-            pag.hotkey("fn", "left")
+            kb.press_and_release("home")
             sleep(0.5)
             pag.hotkey("ctrl", "0")
             pag.hotkey("ctrl", "-")
@@ -134,12 +134,12 @@ def scroll_through_tournaments():
             pag.hotkey("ctrl", "0")
             pag.hotkey("ctrl", "-")
             pag.moveTo(constants.MAP_VIEW_BUTTON)
-            pag.hotkey("fn", "left")
+            kb.press_and_release("home")
             sleep(0.5)
             sleep(2)
             pag.scroll(-100)
             sleep(1)
-            pag.hotkey("fn", "left")
+            kb.press_and_release("home")
             sleep(2)
             pag.click(constants.MAP_VIEW_BUTTON)
             sleep(0.5)
