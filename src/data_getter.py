@@ -4,7 +4,7 @@ import pyperclip
 import constants
 import json
 import re
-from time import sleep
+from time import sleep, time
 from typing import Tuple, Dict
 
 
@@ -80,6 +80,7 @@ def get_tournament_data() -> str:
 
 
 def scroll_through_tournaments():
+    start_time = time()
     pag.hotkey("ctrl", "0")
     pag.hotkey("ctrl", "-")
     pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
@@ -88,80 +89,44 @@ def scroll_through_tournaments():
 
     amount_show_more_tournaments_button = round(tournament_amount / 10)
 
-    for tournament_number in range(8, tournament_amount + 1):
-        if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
-            pag.hotkey("ctrl", "0")
-            pag.hotkey("ctrl", "-")
-            sleep(1)
-            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
-            kb.press_and_release("home")
-            sleep(2)
-            pag.scroll(-100)
-            sleep(1)
-            kb.press_and_release("home")
-            sleep(2)
-            pag.click(constants.MAP_VIEW_BUTTON)
-            sleep(1)
-            for _ in range(tournament_number * 2 + 2):
-                pag.press("tab")
-            pag.press("enter")
-            sleep(2)
-            get_tournament_data()
-            sleep(0.5)
-            pag.click(constants.PAGE_BACK_BUTTON)
-            sleep(2)
+    pag.click(constants.MAP_VIEW_BUTTON)
+    sleep(0.5)
+    pag.press("tab", 23)
+    pag.press("enter")
+    for _ in range(amount_show_more_tournaments_button):
+        pag.press("enter")
+        sleep(0.5)
 
-            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
-            kb.press_and_release("home")
-            sleep(0.5)
-            pag.hotkey("ctrl", "0")
-            pag.hotkey("ctrl", "-")
-            sleep(0.5)
-            pag.click(constants.MAP_VIEW_BUTTON)
-            sleep(0.5)
-            amount_show_more_tournaments_button -= 1 
-            for _ in range((tournament_number * 2 + 2) + 1):
-                pag.press("tab")
+    for tournament_number in range(30, tournament_amount + 1):
+        pag.hotkey("ctrl", "0")
+        pag.hotkey("ctrl", "-")
+        sleep(0.5)
+        pag.click(constants.LEFT_SCREEN_EDGE)
+        sleep(0.5)
+        kb.press_and_release("home")
+        sleep(2)
+        pag.scroll(-100)
+        sleep(1)
+        kb.press_and_release("home")
+        sleep(2)
+        pag.click(constants.MAP_VIEW_BUTTON)
+        sleep(0.5)
 
-            pag.press("enter")
+        for _ in range(tournament_number * 2 + 2):
+            pag.press("tab")
 
-            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
-            kb.press_and_release("home")
-            sleep(0.5)
-            pag.hotkey("ctrl", "0")
-            pag.hotkey("ctrl", "-")
-            sleep(0.5)
-            pag.click(constants.MAP_VIEW_BUTTON)
-            sleep(0.5)
-        else:
-            sleep(0.5)
-            pag.hotkey("ctrl", "0")
-            pag.hotkey("ctrl", "-")
-            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
-            kb.press_and_release("home")
-            sleep(0.5)
-            sleep(2)
-            pag.scroll(-100)
-            sleep(1)
-            kb.press_and_release("home")
-            sleep(2)
-            pag.click(constants.MAP_VIEW_BUTTON)
-            sleep(0.5)
+        sleep(1)
 
-            for _ in range(tournament_number * 2 + 2):
-                pag.press("tab")
-
-            sleep(1)
-
-            pag.press("enter")
-            sleep(2)
-            get_tournament_data()
-            sleep(0.5)
-            pag.click(constants.PAGE_BACK_BUTTON)
-            sleep(2)
+        pag.press("enter")
+        sleep(2)
+        get_tournament_data()
+        sleep(0.5)
+        pag.click(constants.PAGE_BACK_BUTTON)
+        sleep(2)
 
         print(f"Scrolled through {tournament_number} tournaments.")
         print(f"{tournament_amount - tournament_number} left.")
+        print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
         print()
 
 
