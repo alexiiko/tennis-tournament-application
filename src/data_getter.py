@@ -52,6 +52,10 @@ def get_tournament_data() -> str:
     def get_tournament_title() -> Dict[str, str]:
         kb.press_and_release("home")
         sleep(0.5)
+        pag.scroll(-100)
+        sleep(1)
+        kb.press_and_release("home")
+        sleep(1)
         tournament_title = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_TITLE, constants.RIGHT_TOURNAMENT_TITLE)
         return {"tournament_title": tournament_title}
 
@@ -84,12 +88,12 @@ def scroll_through_tournaments():
 
     amount_show_more_tournaments_button = round(tournament_amount / 10)
 
-    for tournament_number in range(1, tournament_amount + 1):
+    for tournament_number in range(8, tournament_amount + 1):
         if tournament_number % 10 == 0 and amount_show_more_tournaments_button > 0:
             pag.hotkey("ctrl", "0")
             pag.hotkey("ctrl", "-")
             sleep(1)
-            pag.moveTo(constants.MAP_VIEW_BUTTON)
+            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
             kb.press_and_release("home")
             sleep(2)
             pag.scroll(-100)
@@ -107,7 +111,7 @@ def scroll_through_tournaments():
             pag.click(constants.PAGE_BACK_BUTTON)
             sleep(2)
 
-            pag.moveTo(constants.MAP_VIEW_BUTTON)
+            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
             kb.press_and_release("home")
             sleep(0.5)
             pag.hotkey("ctrl", "0")
@@ -121,7 +125,7 @@ def scroll_through_tournaments():
 
             pag.press("enter")
 
-            pag.moveTo(constants.MAP_VIEW_BUTTON)
+            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
             kb.press_and_release("home")
             sleep(0.5)
             pag.hotkey("ctrl", "0")
@@ -133,7 +137,7 @@ def scroll_through_tournaments():
             sleep(0.5)
             pag.hotkey("ctrl", "0")
             pag.hotkey("ctrl", "-")
-            pag.moveTo(constants.MAP_VIEW_BUTTON)
+            pag.click(constants.LEFT_TOURNAMENT_AMOUNT)
             kb.press_and_release("home")
             sleep(0.5)
             sleep(2)
@@ -156,7 +160,8 @@ def scroll_through_tournaments():
             pag.click(constants.PAGE_BACK_BUTTON)
             sleep(2)
 
-        print(tournament_number)
+        print(f"Scrolled through {tournament_number} tournaments.")
+        print(f"{tournament_amount - tournament_number} left.")
         print()
 
 
