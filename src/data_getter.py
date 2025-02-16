@@ -83,6 +83,28 @@ def scroll_through_tournaments():
     start_time = time()
     pag.hotkey("ctrl", "0")
     pag.hotkey("ctrl", "-")
+    sleep(1)
+    pag.click(constants.AGE_CLASS_BUTTON)
+    sleep(1)
+    pag.click(constants.RESET_SEARCH_OPTIONS_BUTTON)
+    kb.press_and_release("home")
+    sleep(2)
+
+    age_class_men_list = list(constants.MEN_CLASSES)
+    for age_class_index in range(len(age_class_men_list)): 
+        pag.click(constants.AGE_CLASS_BUTTON)
+        sleep(0.5)
+        pag.moveTo(constants.AGE_CLASSES_SELECTOR)
+        sleep(0.5)
+        pag.scroll(-500)
+        sleep(0.5)
+        pag.click(constants.MEN_CLASSES[age_class_men_list[age_class_index]])
+        sleep(0.5)
+        if age_class_index > 0:
+            pag.click(constants.MEN_CLASSES[age_class_men_list[age_class_index - 1]])
+            sleep(0.5)
+        sleep(0.5)
+
     pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
     sleep(3)
     tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))) # only get the numbers out of the string
@@ -123,7 +145,7 @@ def scroll_through_tournaments():
         pag.click(constants.PAGE_BACK_BUTTON)
         sleep(2)
 
-        print(f"Progess:{round((tournament_number / tournament_amount)) * 100}%")
+        print(f"Progess:{(tournament_number / tournament_amount) * 100}%")
         print(f"Scrolled through {tournament_number} tournaments.")
         print(f"{tournament_amount - tournament_number} left.")
         print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
