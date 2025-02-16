@@ -30,7 +30,7 @@ This is the unofficial API for retrieving relevant tournament data of tennis tou
 ## 🤝 Contribution
 👨‍💻 Contributions are welcome! Feel free to commit & help improve the API. 🚀  
 
-🔹 How to contribute?
+🔹 How to contribute?  
 1️⃣ Send a pull request, and I'll review it.  
 2️⃣ If the code is solid, it gets merged! 🎉  
 
