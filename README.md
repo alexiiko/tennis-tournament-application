@@ -5,7 +5,12 @@ This is the unofficial API for retrieving relevant tournament data of tennis tou
 > The API is under active development and may be buggy.
 
 ## ⚙️ How It Works
-...
+🚀 Using the pyautogui library, the data_getter.py script automates the process step by step:
+
+🌐 1. The script launches a web browser and navigates to the tournament platform.  
+🔍 2. It searches for all tournaments in the specific age class and scrolls through each of them.  
+📋 3. The script copies the details of each specific tournament and stores them in variables.  
+📂 4. The extracted data is structured and returned in JSON format.
 
 ## 📖 How to Use
 1. Open a directory.
