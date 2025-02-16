@@ -53,3 +53,28 @@ SLEEP_TIME_FOR_LOADING = 2
 MAP_VIEW_BUTTON = (350, 1691)
 
 LEFT_SCREEN_EDGE = (96, 1020)
+
+RESET_SEARCH_OPTIONS_BUTTON = (2485, 1500)
+
+# age classes
+AGE_CLASS_BUTTON = (1190, 1365)
+AGE_CLASSES_SELECTOR = (1190, 1230)
+
+
+MEN_CLASSES = {
+    "M18": (870, 1205),
+    "M16": (870, 1120),
+    "M14": (870, 1040),
+    "M13": (870, 960),
+    "M12": (870, 880),
+    "M11": (870, 800)
+}
+
+WOMEN_CLASSES = {
+    "W18": (1215, 1205),
+    "W16": (1215, 1120),
+    "W14": (1215, 1040),
+    "W13": (1215, 960),
+    "W12": (1215, 880),
+    "W11": (1215, 800)
+}
