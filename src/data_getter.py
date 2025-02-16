@@ -91,13 +91,13 @@ def scroll_through_tournaments():
 
     pag.click(constants.MAP_VIEW_BUTTON)
     sleep(0.5)
-    pag.press("tab", 23)
+    pag.press("tab", presses=23)
     pag.press("enter")
     for _ in range(amount_show_more_tournaments_button):
         pag.press("enter")
         sleep(0.5)
 
-    for tournament_number in range(30, tournament_amount + 1):
+    for tournament_number in range(1, tournament_amount + 1):
         pag.hotkey("ctrl", "0")
         pag.hotkey("ctrl", "-")
         sleep(0.5)
@@ -112,8 +112,7 @@ def scroll_through_tournaments():
         pag.click(constants.MAP_VIEW_BUTTON)
         sleep(0.5)
 
-        for _ in range(tournament_number * 2 + 2):
-            pag.press("tab")
+        pag.press("tab", presses=tournament_number*2+2)
 
         sleep(1)
 
@@ -124,6 +123,7 @@ def scroll_through_tournaments():
         pag.click(constants.PAGE_BACK_BUTTON)
         sleep(2)
 
+        print(f"Progess:{round((tournament_number / tournament_amount)) * 100}%")
         print(f"Scrolled through {tournament_number} tournaments.")
         print(f"{tournament_amount - tournament_number} left.")
         print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
