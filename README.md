@@ -13,11 +13,15 @@ This is the unofficial API for retrieving relevant tournament data of tennis tou
 📂 4. The extracted data is structured and returned in JSON format.
 
 ## 📖 How to Use
-1. Open a directory.
+> [!NOTE]
+> Have the latest python version installed.
+
+1. Open a directory with a terminal.
 2. Run `python -m venv .` in the directory.
 3. Clone the repository into the directory.
-4. Run `pip install -r src/requirements.txt`.
-5. Run the main file with `python data_getter.py`.
+5. Run `source Scripts/activate`.
+5. Run `pip install -r src/requirements.txt`.
+6. Run the main file with `python data_getter.py`.
 > [!CAUTION]
 > When running there is a possibility that the coordinates of the elements don't align with your screen. This could lead into pressing `enter` at the wrong time.
 
