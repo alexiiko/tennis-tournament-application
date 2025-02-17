@@ -92,6 +92,7 @@ def scroll_through_tournaments():
 
     age_class_men_list = list(constants.MEN_CLASSES)
     for age_class_index in range(len(age_class_men_list)): 
+        # pick an age class
         pag.click(constants.AGE_CLASS_BUTTON)
         sleep(0.5)
         pag.moveTo(constants.AGE_CLASSES_SELECTOR)
@@ -105,51 +106,67 @@ def scroll_through_tournaments():
             sleep(0.5)
         sleep(0.5)
 
-    pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
-    sleep(3)
-    tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))) # only get the numbers out of the string
+        # start to search and scroll through the tournaments
+        pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
+        sleep(3)
+        tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))) # only get the numbers out of the string
 
-    amount_show_more_tournaments_button = round(tournament_amount / 10)
+        amount_show_more_tournaments_button = round(tournament_amount / 10)
 
-    pag.click(constants.MAP_VIEW_BUTTON)
-    sleep(0.5)
-    pag.press("tab", presses=23)
-    pag.press("enter")
-    for _ in range(amount_show_more_tournaments_button):
-        pag.press("enter")
-        sleep(0.5)
+        if tournament_amount == 0:
+            continue
+        else:
+            if tournament_amount > 10:
+                pag.click(constants.MAP_VIEW_BUTTON)
+                sleep(0.5)
+                pag.press("tab", presses=23)
+                pag.press("enter")
+                for _ in range(amount_show_more_tournaments_button):
+                    pag.press("enter")
+                    sleep(0.5)
 
-    for tournament_number in range(1, tournament_amount + 1):
-        pag.hotkey("ctrl", "0")
-        pag.hotkey("ctrl", "-")
-        sleep(0.5)
-        pag.click(constants.LEFT_SCREEN_EDGE)
-        sleep(0.5)
-        kb.press_and_release("home")
-        sleep(2)
-        pag.scroll(-100)
-        sleep(1)
-        kb.press_and_release("home")
-        sleep(2)
-        pag.click(constants.MAP_VIEW_BUTTON)
-        sleep(0.5)
+            for tournament_number in range(1, tournament_amount + 1):
+                pag.hotkey("ctrl", "0")
+                pag.hotkey("ctrl", "-")
+                sleep(0.5)
+                pag.click(constants.LEFT_SCREEN_EDGE)
+                sleep(0.5)
+                kb.press_and_release("home")
+                sleep(2)
+                pag.scroll(-100)
+                sleep(1)
+                kb.press_and_release("home")
+                sleep(2)
+                pag.click(constants.MAP_VIEW_BUTTON)
+                sleep(0.5)
 
-        pag.press("tab", presses=tournament_number*2+2)
+                pag.press("tab", presses=tournament_number*2+2)
 
-        sleep(1)
+                sleep(1)
 
-        pag.press("enter")
-        sleep(2)
-        get_tournament_data()
-        sleep(0.5)
-        pag.click(constants.PAGE_BACK_BUTTON)
-        sleep(2)
+                pag.press("enter")
+                sleep(2)
+                get_tournament_data()
+                sleep(0.5)
+                pag.click(constants.PAGE_BACK_BUTTON)
+                sleep(2)
 
-        print(f"Progess:{(tournament_number / tournament_amount) * 100}%")
-        print(f"Scrolled through {tournament_number} tournaments.")
-        print(f"{tournament_amount - tournament_number} left.")
-        print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
-        print()
+                print(f"Progess:{(tournament_number / tournament_amount) * 100}%")
+                print(f"Scrolled through {tournament_number} tournaments.")
+                print(f"{tournament_amount - tournament_number} left.")
+                print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
+                print()
+
+            pag.click(constants.LEFT_SCREEN_EDGE)
+            kb.press_and_release("home")
+            sleep(2)
+            pag.hotkey("ctrl", "0")
+            pag.hotkey("ctrl", "-")
+            sleep(0.5)
+            pag.scroll(-100)
+            sleep(1)
+            kb.press_and_release("home")
+            sleep(1)
 
 
 def open_tournament_platform():
