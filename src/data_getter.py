@@ -90,7 +90,7 @@ def scroll_through_tournaments():
     kb.press_and_release("home")
     sleep(2)
 
-    age_class_men_list = list(constants.MEN_CLASSES)
+    age_class_men_list = list(constants.AGE_CLASSES)
     for age_class_index in range(len(age_class_men_list)): 
         # pick an age class
         pag.click(constants.AGE_CLASS_BUTTON)
@@ -99,10 +99,10 @@ def scroll_through_tournaments():
         sleep(0.5)
         pag.scroll(-500)
         sleep(0.5)
-        pag.click(constants.MEN_CLASSES[age_class_men_list[age_class_index]])
+        pag.click(constants.AGE_CLASSES[age_class_men_list[age_class_index]])
         sleep(0.5)
         if age_class_index > 0:
-            pag.click(constants.MEN_CLASSES[age_class_men_list[age_class_index - 1]])
+            pag.click(constants.AGE_CLASSES[age_class_men_list[age_class_index - 1]])
             sleep(0.5)
         sleep(0.5)
 
