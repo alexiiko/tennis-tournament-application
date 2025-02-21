@@ -1,9 +1,9 @@
 import pyautogui as pag
 import keyboard as kb
 import pyperclip
-import constants
 import json
 import re
+import constants
 from time import sleep, time
 from typing import Tuple, Dict
 
@@ -78,6 +78,21 @@ def get_tournament_data() -> str:
 
     return json.dumps(get_tournament_title() | get_tournament_dates() | get_tournament_location() | get_tournament_link())
 
+all_tournaments_with_data = {
+    "M18": [],
+    "M16": [],
+    "M14": [],
+    "M13": [],
+    "M12": [],
+    "M11": [],
+
+    "W18": [],
+    "W16": [],
+    "W14": [],
+    "W13": [],
+    "W12": [],
+    "W11": []
+}
 
 def scroll_through_tournaments():
     start_time = time()
@@ -90,8 +105,8 @@ def scroll_through_tournaments():
     kb.press_and_release("home")
     sleep(2)
 
-    age_class_men_list = list(constants.AGE_CLASSES)
-    for age_class_index in range(len(age_class_men_list)): 
+    age_classes_list = list(constants.AGE_CLASSES)
+    for age_class_index in range(len(age_classes_list)): 
         # pick an age class
         pag.click(constants.AGE_CLASS_BUTTON)
         sleep(0.5)
@@ -99,10 +114,10 @@ def scroll_through_tournaments():
         sleep(0.5)
         pag.scroll(-500)
         sleep(0.5)
-        pag.click(constants.AGE_CLASSES[age_class_men_list[age_class_index]])
+        pag.click(constants.AGE_CLASSES[age_classes_list[age_class_index]])
         sleep(0.5)
         if age_class_index > 0:
-            pag.click(constants.AGE_CLASSES[age_class_men_list[age_class_index - 1]])
+            pag.click(constants.AGE_CLASSES[age_classes_list[age_class_index - 1]])
             sleep(0.5)
         sleep(0.5)
 
@@ -146,7 +161,7 @@ def scroll_through_tournaments():
 
                 pag.press("enter")
                 sleep(2)
-                get_tournament_data()
+                all_tournaments_with_data[age_classes_list[age_class_index]].append(get_tournament_data())
                 sleep(0.5)
                 pag.click(constants.PAGE_BACK_BUTTON)
                 sleep(2)
@@ -178,11 +193,17 @@ def open_tournament_platform():
     sleep(constants.SLEEP_TIME_FOR_LOADING + 3)
 
 
+def return_tournaments_with_data():
+    open_tournament_platform()
+    scroll_through_tournaments()
+    return all_tournaments_with_data
+
+
 while True:
     if kb.is_pressed("a"):
         tournament_data = get_tournament_data()
         print(tournament_data)
-        sleep(0.5)
+        sleep(0.5)       
     elif kb.is_pressed("b"):
         open_tournament_platform()
         scroll_through_tournaments()
