@@ -1,7 +1,6 @@
 import pyautogui as pag
 import keyboard as kb
 import pyperclip
-import json
 import re
 import constants
 from time import sleep, time
@@ -19,7 +18,7 @@ def copy_text_and_return_as_variable(location_left: Tuple[int,int], location_rig
     return str(pyperclip.paste()).replace("\n", "").replace("\r", "").replace("\t", "")
 
 
-def get_tournament_data() -> str:
+def get_tournament_data() -> Dict:
     def get_tournament_location() -> Dict[str, Dict[str, str]]:
         pag.scroll(-10000) # get to bottom of the page
         sleep(0.5)
@@ -76,7 +75,7 @@ def get_tournament_data() -> str:
 
     sleep(3)
 
-    return json.dumps(get_tournament_title() | get_tournament_dates() | get_tournament_location() | get_tournament_link())
+    return get_tournament_title() | get_tournament_dates() | get_tournament_location() | get_tournament_link()
 
 all_tournaments_with_data = {
     "M18": [],
@@ -140,7 +139,7 @@ def scroll_through_tournaments():
                     pag.press("enter")
                     sleep(0.5)
 
-            for tournament_number in range(1, tournament_amount + 1):
+            for tournament_number in range(tournament_amount, tournament_amount + 1):
                 pag.hotkey("ctrl", "0")
                 pag.hotkey("ctrl", "-")
                 sleep(0.5)
@@ -199,12 +198,13 @@ def return_tournaments_with_data():
     return all_tournaments_with_data
 
 
-while True:
-    if kb.is_pressed("a"):
-        tournament_data = get_tournament_data()
-        print(tournament_data)
-        sleep(0.5)       
-    elif kb.is_pressed("b"):
-        open_tournament_platform()
-        scroll_through_tournaments()
-        sleep(0.5)
+def main():
+    while True:
+        if kb.is_pressed("a"):
+            tournament_data = get_tournament_data()
+            print(tournament_data)
+            sleep(0.5)       
+        elif kb.is_pressed("b"):
+            open_tournament_platform()
+            scroll_through_tournaments()
+            sleep(0.5)
