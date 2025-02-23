@@ -115,7 +115,7 @@ def scroll_through_tournaments():
 
 
     def print_scrolling_progress():
-        print(f"Progess:{(tournament_number / tournament_amount) * 100}%")
+        print(f"Progess: {round((tournament_number / tournament_amount) * 100)}%")
         print(f"Scrolled through {tournament_number} tournaments.")
         print(f"{tournament_amount - tournament_number} left.")
         print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
