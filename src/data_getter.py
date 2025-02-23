@@ -14,7 +14,9 @@ def copy_text_and_return_as_variable(location_left: Tuple[int,int], location_rig
     pag.mouseUp()
     pag.hotkey("ctrl", "c")
 
-    return str(pyperclip.paste()).replace("\n", "").replace("\r", "").replace("\t", "")
+    copied_text = pyperclip.paste()
+
+    return copied_text.encode('utf-8').decode('utf-8').replace("\n", "").replace("\r", "").replace("\t", "")
 
 
 def get_tournament_data() -> Dict:
@@ -182,7 +184,6 @@ def scroll_through_tournaments():
                 sleep(constants.SLEEP_TIME_FOR_LOADING)
 
                 print_scrolling_progress()
-
 
             reset_zoom()
             sleep(2)
