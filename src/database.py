@@ -26,12 +26,22 @@ def create_database_tables():
 
 
 def insert_tournament_data_into_tables():
-    for age_class, tournaments in list(all_tournaments_with_data.items()):
+    for age_class, tournaments in all_tournaments_with_data.items():
         for tournament in tournaments:
             cursor.execute(f"""
                 INSERT INTO {age_class} (title, tournament_date, regis_start_date, regis_end_date, draw_date, street, plz, link)
-                VALUES ({tournament["tournament_title"]}, {tournament["tournament_dates"]["tournament_date"]}, {tournament["tournament_dates"]["tournament_registration_start"]}, {tournament["tournament_dates"]["tournament_registration_end"]}, {tournament["tournament_dates"]["tournament_draw_date"]}, {tournament["tournament_location"]["tournament_street"]}, {tournament["tournament_location"]["tournament_plz"]}, {tournament["tournament_link"]});
-            """)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+            """, (
+                tournament["tournament_title"],
+                tournament["tournament_dates"]["tournament_date"],
+                tournament["tournament_dates"]["tournament_registration_start"],
+                tournament["tournament_dates"]["tournament_registration_end"],
+                tournament["tournament_dates"]["tournament_draw_date"],
+                tournament["tournament_location"]["tournament_street"],
+                tournament["tournament_location"]["tournament_plz"],
+                tournament["tournament_link"]
+            ))
+
     conn.commit()
 
 
