@@ -7,7 +7,6 @@ from time import sleep, time
 from typing import Tuple, Dict
 
 
-# helper function for saving code lines
 def copy_text_and_return_as_variable(location_left: Tuple[int,int], location_right: Tuple[int,int,]):
     pag.moveTo(location_left)
     pag.mouseDown()
@@ -49,12 +48,6 @@ def get_tournament_data() -> Dict:
 
 
     def get_tournament_title() -> Dict[str, str]:
-        kb.press_and_release("home")
-        sleep(0.5)
-        pag.scroll(-100)
-        sleep(1)
-        kb.press_and_release("home")
-        sleep(1)
         tournament_title = copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_TITLE, constants.RIGHT_TOURNAMENT_TITLE)
         return {"tournament_title": tournament_title}
 
@@ -65,15 +58,24 @@ def get_tournament_data() -> Dict:
         pag.hotkey("ctrl", "c")
         return {"tournament_link": str(pyperclip.paste())}
 
-    sleep(2)
 
-    pag.hotkey("ctrl", "-")
-    pag.hotkey("ctrl", "-")
-    pag.hotkey("ctrl", "-")
-    pag.hotkey("ctrl", "-")
-    pag.hotkey("ctrl", "-")
+    def scroll_to_top_of_page():
+        kb.press_and_release("home")
+        sleep(0.5)
 
-    sleep(3)
+    
+    def execute_fail_safe():
+        pag.scroll(-100)
+        sleep(1)
+        kb.press_and_release("home")
+        sleep(1.5)
+
+
+    for _ in range(5):
+        pag.hotkey("ctrl", "-")
+
+    scroll_to_top_of_page()
+    execute_fail_safe()
 
     return get_tournament_title() | get_tournament_dates() | get_tournament_location() | get_tournament_link()
 
@@ -94,15 +96,40 @@ all_tournaments_with_data = {
 }
 
 def scroll_through_tournaments():
+    def execute_fail_safe():
+        pag.scroll(-100)
+        sleep(1)
+        kb.press_and_release("home")
+        sleep(1.5)
+
+
+    def reset_zoom():
+        pag.hotkey("ctrl", "0")
+        pag.hotkey("ctrl", "-")
+
+
+    def scroll_to_top_of_page():
+        pag.click(constants.LEFT_SCREEN_EDGE)
+        sleep(0.5)
+        kb.press_and_release("home")
+
+
+    def print_scrolling_progress():
+        print(f"Progess:{(tournament_number / tournament_amount) * 100}%")
+        print(f"Scrolled through {tournament_number} tournaments.")
+        print(f"{tournament_amount - tournament_number} left.")
+        print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
+        print()
+
+
     start_time = time()
-    pag.hotkey("ctrl", "0")
-    pag.hotkey("ctrl", "-")
+    reset_zoom()
     sleep(1)
     pag.click(constants.AGE_CLASS_BUTTON)
     sleep(1)
     pag.click(constants.RESET_SEARCH_OPTIONS_BUTTON)
     kb.press_and_release("home")
-    sleep(2)
+    sleep(constants.SLEEP_TIME_FOR_LOADING)
 
     age_classes_list = list(constants.AGE_CLASSES)
     for age_class_index in range(len(age_classes_list)): 
@@ -118,9 +145,7 @@ def scroll_through_tournaments():
         if age_class_index > 0:
             pag.click(constants.AGE_CLASSES[age_classes_list[age_class_index - 1]])
             sleep(0.5)
-        sleep(0.5)
 
-        # start to search and scroll through the tournaments
         pag.click(constants.SEARCH_TOURNAMENTS_BUTTON)
         sleep(3)
         tournament_amount = int(re.sub(r'\D', '', copy_text_and_return_as_variable(constants.LEFT_TOURNAMENT_AMOUNT, constants.RIGHT_TOURNAMENT_AMOUNT))) # only get the numbers out of the string
@@ -140,51 +165,42 @@ def scroll_through_tournaments():
                     sleep(0.5)
 
             for tournament_number in range(tournament_amount, tournament_amount + 1):
-                pag.hotkey("ctrl", "0")
-                pag.hotkey("ctrl", "-")
+                reset_zoom()
                 sleep(0.5)
-                pag.click(constants.LEFT_SCREEN_EDGE)
-                sleep(0.5)
-                kb.press_and_release("home")
-                sleep(2)
-                pag.scroll(-100)
+                scroll_to_top_of_page()
                 sleep(1)
-                kb.press_and_release("home")
-                sleep(2)
+                execute_fail_safe()
                 pag.click(constants.MAP_VIEW_BUTTON)
                 sleep(0.5)
-
                 pag.press("tab", presses=tournament_number*2+2)
-
                 sleep(1)
-
                 pag.press("enter")
-                sleep(2)
+                sleep(constants.SLEEP_TIME_FOR_LOADING)
                 all_tournaments_with_data[age_classes_list[age_class_index]].append(get_tournament_data())
                 sleep(0.5)
                 pag.click(constants.PAGE_BACK_BUTTON)
-                sleep(2)
+                sleep(constants.SLEEP_TIME_FOR_LOADING)
 
-                print(f"Progess:{(tournament_number / tournament_amount) * 100}%")
-                print(f"Scrolled through {tournament_number} tournaments.")
-                print(f"{tournament_amount - tournament_number} left.")
-                print(f"Elapsed time: {round((time() - start_time) / 60, 2)} minutes")
-                print()
+                print_scrolling_progress()
 
-            pag.click(constants.LEFT_SCREEN_EDGE)
-            kb.press_and_release("home")
+
+            reset_zoom()
             sleep(2)
-            pag.hotkey("ctrl", "0")
-            pag.hotkey("ctrl", "-")
+            scroll_to_top_of_page()
             sleep(0.5)
-            pag.scroll(-100)
-            sleep(1)
-            kb.press_and_release("home")
-            sleep(1)
+            execute_fail_safe()
+
+
+def open_chrome_browser():
+    pag.press("super")
+    sleep(0.5)
+    kb.write("chrome")
+    sleep(0.5)
+    pag.press("enter")
 
 
 def open_tournament_platform():
-    pag.hotkey("super", "shift", "2")
+    open_chrome_browser()
     sleep(constants.SLEEP_TIME_FOR_LOADING)
     pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
     pag.hotkey("ctrl", "v")
