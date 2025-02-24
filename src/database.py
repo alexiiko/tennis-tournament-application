@@ -1,7 +1,7 @@
 import sqlite3
-import data_getter
+# import data_getter
 
-all_tournaments_with_data = data_getter.return_tournaments_with_data()
+# all_tournaments_with_data = data_getter.return_tournaments_with_data()
 
 conn = sqlite3.connect("tournaments.db")
 cursor = conn.cursor()
@@ -46,13 +46,36 @@ def insert_tournament_data_into_tables():
 
 
 def delete_already_passed_tournaments():
+    tournament_dates_age_class = {     
+        "M18": [],
+        "M16": [],
+        "M14": [],
+        "M13": [],
+        "M12": [],
+        "M11": [],
+
+        "W18": [],
+        "W16": [],
+        "W14": [],
+        "W13": [],
+        "W12": [],
+        "W11": []
+    }
+    
+    for age_class, age_class_array in tournament_dates_age_class.items():
+        cursor.execute(f"SELECT tournament_date FROM {age_class}")
+        dates = cursor.fetchall()
+
+        for date in dates:
+            age_class_array.append(str(date)[15:-3])
+
     conn.commit()
 
     
 def main():
-    create_database_tables()
+    # create_database_tables()
     delete_already_passed_tournaments()
-    insert_tournament_data_into_tables()
+    # insert_tournament_data_into_tables()
 
 
 main()
