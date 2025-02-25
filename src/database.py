@@ -1,5 +1,6 @@
 import sqlite3
 # import data_getter
+from datetime import datetime
 
 # all_tournaments_with_data = data_getter.return_tournaments_with_data()
 
@@ -63,11 +64,24 @@ def delete_already_passed_tournaments():
     }
     
     for age_class, age_class_array in tournament_dates_age_class.items():
-        cursor.execute(f"SELECT tournament_date FROM {age_class}")
+        # save the ID of the according tournament -> delete the tournaments with the according ID 
+        cursor.execute(f"SELECT tournament_date, id FROM {age_class}")
         dates = cursor.fetchall()
 
+        date_format = "%d.%m.%Y"
+        current_date = datetime.strftime(datetime.now(), date_format)
+        current_date_date_object = datetime.strptime(current_date, date_format)
+
         for date in dates:
-            age_class_array.append(str(date)[15:-3])
+            print(date[0])
+            tournament_date = str(date[0])[15:-3]
+            tournament_date_date_object = datetime.strptime(tournament_date, date_format)
+
+            delta_dates = (tournament_date_date_object - current_date_date_object).days
+            print(delta_dates)
+
+            if delta_dates < 0:
+                age_class_array.append(int(date[1]))
 
     conn.commit()
 
