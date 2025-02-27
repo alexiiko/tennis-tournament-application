@@ -1,8 +1,8 @@
 import sqlite3
-# import data_getter
+import data_getter
 from datetime import datetime
 
-# all_tournaments_with_data = data_getter.return_tournaments_with_data()
+all_tournaments_with_data = data_getter.return_tournaments_with_data()
 
 conn = sqlite3.connect("tournaments.db")
 cursor = conn.cursor()
@@ -63,33 +63,40 @@ def delete_already_passed_tournaments():
         "W11": []
     }
     
-    for age_class, age_class_array in tournament_dates_age_class.items():
-        # save the ID of the according tournament -> delete the tournaments with the according ID 
-        cursor.execute(f"SELECT tournament_date, id FROM {age_class}")
-        dates = cursor.fetchall()
+    def get_ids_of_passed_tournament():
+        for age_class, age_class_array in tournament_dates_age_class.items():
+            cursor.execute(f"SELECT tournament_date, id FROM {age_class}")
+            dates = cursor.fetchall()
 
-        date_format = "%d.%m.%Y"
-        current_date = datetime.strftime(datetime.now(), date_format)
-        current_date_date_object = datetime.strptime(current_date, date_format)
+            date_format = "%d.%m.%Y"
+            current_date = datetime.strftime(datetime.now(), date_format)
+            current_date_date_object = datetime.strptime(current_date, date_format)
 
-        for date in dates:
-            print(date[0])
-            tournament_date = str(date[0])[15:-3]
-            tournament_date_date_object = datetime.strptime(tournament_date, date_format)
+            for date in dates:
+                tournament_date_date_object = datetime.strptime(list(date)[0][13:], date_format)
+                delta_dates = (tournament_date_date_object - current_date_date_object).days
 
-            delta_dates = (tournament_date_date_object - current_date_date_object).days
-            print(delta_dates)
+                if delta_dates < 0:
+                    age_class_array.append(int(date[1]))
 
-            if delta_dates < 0:
-                age_class_array.append(int(date[1]))
 
+    def delete_passed_tournaments():
+        for age_class, age_class_array in tournament_dates_age_class.items():
+            if age_class_array:
+                for element in age_class_array:
+                    cursor.execute(f"DELETE FROM {age_class} WHERE id = {element}")
+
+
+    get_ids_of_passed_tournament()
+    delete_passed_tournaments()
     conn.commit()
 
     
 def main():
-    # create_database_tables()
+    create_database_tables()
     delete_already_passed_tournaments()
-    # insert_tournament_data_into_tables()
+    insert_tournament_data_into_tables()
+    pass
 
 
 main()
