@@ -166,7 +166,7 @@ def scroll_through_tournaments():
                     pag.press("enter")
                     sleep(0.5)
 
-            for tournament_number in range(tournament_amount, tournament_amount + 1):
+            for tournament_number in range(1, tournament_amount + 1):
                 reset_zoom()
                 sleep(0.5)
                 scroll_to_top_of_page()
@@ -215,13 +215,12 @@ def return_tournaments_with_data():
     return all_tournaments_with_data
 
 
-def main():
-    while True:
-        if kb.is_pressed("a"):
-            tournament_data = get_tournament_data()
-            print(tournament_data)
-            sleep(0.5)       
-        elif kb.is_pressed("b"):
-            open_tournament_platform()
-            scroll_through_tournaments()
-            sleep(0.5)
+while True:
+    if kb.is_pressed("a"):
+        tournament_data = get_tournament_data()
+        print(tournament_data)
+        sleep(0.5)       
+    elif kb.is_pressed("b"):
+        open_tournament_platform()
+        scroll_through_tournaments()
+        sleep(0.5)
