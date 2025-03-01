@@ -28,11 +28,13 @@ def create_database_tables():
 
 def insert_tournament_data_into_tables():
     for age_class, tournaments in all_tournaments_with_data.items():
-        cursor.execute(f"SELECT title FROM {age_class}")
-        tournament_titles = cursor.fetchall()
+        cursor.execute(f"SELECT link FROM {age_class}")
+        tournament_titles = list(cursor.fetchall())
 
         for tournament in tournaments:
-            if not tournament["tournament_title"] in tournament_titles:
+            tournament_duplicate = True if tournament["tournament_link"] in [element[0] for element in tournament_titles] else False
+            if tournament_duplicate == False:
+                print(f"added {tournament['tournament_link']} into {age_class}")
                 cursor.execute(f"""
                     INSERT INTO {age_class} (title, tournament_date, regis_start_date, regis_end_date, draw_date, street, plz, link)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?);
@@ -97,8 +99,8 @@ def delete_already_passed_tournaments():
 
     
 def main():
-    create_database_tables()
-    delete_already_passed_tournaments()
+    #create_database_tables()
+    #delete_already_passed_tournaments()
     insert_tournament_data_into_tables()
 
 
