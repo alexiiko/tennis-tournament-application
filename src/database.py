@@ -99,8 +99,8 @@ def delete_already_passed_tournaments():
 
     
 def main():
-    #create_database_tables()
-    #delete_already_passed_tournaments()
+    create_database_tables()
+    delete_already_passed_tournaments()
     insert_tournament_data_into_tables()
 
 
