@@ -1,9 +1,3 @@
-from turso_db_credentials import URL, TOKEN
-
-# database credentials
-TURSO_DB_URL = URL
-TURSO_DB_TOKEN = TOKEN
-
 # tournament information page 
 # dates
 LEFT_TOURNAMENT_REGISTRATION_START_EXISTING = (188, 568)
