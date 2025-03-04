@@ -19,6 +19,8 @@ func insertLocalDataIntoRemoteDB() {
 }
 
 func main() {
+    fmt.Println("test") 
+    /*
     dbToken := "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDExMTY4NjUsImlkIjoiMDc1ZDQ5MTEtZDUzNS00Nzc5LWE0OTktMzZlYmE3YTEwNWQ2In0._5BR58POJ0aZYqciDxWVImP2IglQ1SjLXL7JJAobI6LZ27YesKCZAmXBksuiy3lk7BSRTg1ONFkwAMddwEisCA"
 
     dbName := "turso-tournaments"
@@ -33,4 +35,5 @@ func main() {
     readFromLocalDatabase()
     insertLocalDataIntoRemoteDB()
     defer libDB.Close()
+    */
 }

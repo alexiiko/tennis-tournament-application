@@ -1,0 +1,13 @@
+{
+"tournament_title": "Th\u00fcringer Hallenlandesmeisterschaften der U18",
+"tournament_dates": {
+	"tournament_date": "22.02.2025 - 23.02.2025", 
+	"tournament_registration_start": "01.12.2023, 23:59 Uhr", 
+	"tournament_registration_end": "18.02.2025, 20:00 Uhr", 
+	"tournament_draw_date": "18.02.2025, 20:30 Uhr"
+},
+"tournament_location": {
+	"tournament_plz": "99427 Weimar", "tournament_street": "Buttelstedter Stra\u00dfe 96"
+}, 
+"tournament_link": "https://www.tennis.de/spielen/turniersuche.html#detail/663198"
+}
