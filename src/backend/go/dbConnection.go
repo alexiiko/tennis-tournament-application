@@ -5,13 +5,15 @@ import (
   "fmt"
   "os"
 
+  "libsqlDB/dbCredentials"
+
   _ "github.com/tursodatabase/libsql-client-go/libsql"
   _ "github.com/mattn/go-sqlite3"
 )
 
 
 func readTournamentsFromLocalDatabase() map[string][]map[string]any {
-    localDB, err := sql.Open("sqlite3", "tournaments.db")
+    localDB, err := sql.Open("sqlite3", "../tournaments.db")
     if err != nil {
         fmt.Println("Error connecting to the local database:", err)
     }
@@ -36,7 +38,7 @@ func readTournamentsFromLocalDatabase() map[string][]map[string]any {
         rows, err := localDB.Query(fmt.Sprintf("SELECT * FROM %s", ageClass))
         if err != nil {
             fmt.Printf("Error retrieving data from the age class: %s with the error: %v\n", ageClass, err)
-            continue
+            os.Exit(1)
         }
         defer rows.Close()
 
@@ -81,10 +83,7 @@ func insertLocalDataIntoRemoteDB() {
     tournamentData := readTournamentsFromLocalDatabase()
     fmt.Println(tournamentData)
 
-    dbToken := "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDExMTY4NjUsImlkIjoiMDc1ZDQ5MTEtZDUzNS00Nzc5LWE0OTktMzZlYmE3YTEwNWQ2In0._5BR58POJ0aZYqciDxWVImP2IglQ1SjLXL7JJAobI6LZ27YesKCZAmXBksuiy3lk7BSRTg1ONFkwAMddwEisCA"
-
-    dbName := "turso-tournaments"
-    url := fmt.Sprintf("libsql://[%s].turso.io?authToken=[%s]", dbName, dbToken)
+    url := fmt.Sprintf("libsql://[%s].turso.io?authToken=[%s]", dbCredentials.DbName, dbCredentials.DbToken)
 
     libDB, err := sql.Open("libsql", url)
     if err != nil {

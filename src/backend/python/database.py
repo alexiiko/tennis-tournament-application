@@ -4,7 +4,7 @@ from datetime import datetime
 
 all_tournaments_with_data = data_getter.return_tournaments_with_data()
 
-conn = sqlite3.connect("tournaments.db")
+conn = sqlite3.connect("../tournaments.db")
 cursor = conn.cursor()
 
 def create_database_tables():
