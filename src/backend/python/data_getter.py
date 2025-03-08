@@ -166,7 +166,7 @@ def scroll_through_tournaments():
                     pag.press("enter")
                     sleep(0.5)
 
-            for tournament_number in range(tournament_amount, tournament_amount + 1):
+            for tournament_number in range(tournament_amount - 1, tournament_amount + 1):
                 reset_zoom()
                 sleep(0.5)
                 scroll_to_top_of_page()
