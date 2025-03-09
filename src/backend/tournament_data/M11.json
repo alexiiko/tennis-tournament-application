@@ -1,27 +1,22 @@
-{
-    "tournament_title": "TCK Hallen-LK-Turnier #18",
-    "tournament_dates": {
-        "tournament_date": "22.03.2025 - 22.03.2025",
-        "tournament_registration_start": "26.01.2025, 12:00 Uhr",
-        "tournament_registration_end": "19.03.2025, 18:00 Uhr",
-        "tournament_draw_date": "19.03.2025, 18:01 Uhr"
-    },
-    "tournament_location": {
-        "tournament_plz": "19.03.2025, 18:01 Uhr",
-        "tournament_street": "19.03.2025, 18:01 Uhr"
-    },
-    "tournament_link": "https://www.tennis.de/spielen/turniersuche.html#detail/681420"
-}{
-    "tournament_title": "geballt.de Ranglisten-Cup Serie 2025",
-    "tournament_dates": {
-        "tournament_date": "22.03.2025 - 23.03.2025",
+[
+    {
+        "tournament_title": "Academy Cup - Jugend LK 16",
+        "tournament_date": "23.03.2025 - 23.03.2025",
         "tournament_registration_start": "Nicht angegeben",
-        "tournament_registration_end": "17.03.2025, 19:00 Uhr",
-        "tournament_draw_date": "17.03.2025, 19:30 Uhr"
+        "tournament_registration_end": "20.03.2025, 14:00 Uhr",
+        "tournament_draw_date": "20.03.2025, 14:30 Uhr",
+        "tournament_plz": "65239 Hochheim am Main",
+        "tournament_street": "Frankfurter Str. 83",
+        "tournament_link": "https://www.tennis.de/spielen/turniersuche.html#detail/686840"
     },
-    "tournament_location": {
-        "tournament_plz": "17.03.2025, 19:30 Uhr",
-        "tournament_street": "17.03.2025, 19:30 Uhr"
-    },
-    "tournament_link": "https://www.tennis.de/spielen/turniersuche.html#detail/670640"
-}
+    {
+        "tournament_title": "TC Salzgitter-Bad Tages-LK Junior Cup Winter 2024/25 by Manuel Wiesner in CELLE",
+        "tournament_date": "23.03.2025 - 23.03.2025",
+        "tournament_registration_start": "26.11.2024, 10:00 Uhr",
+        "tournament_registration_end": "19.03.2025, 21:00 Uhr",
+        "tournament_draw_date": "19.03.2025, 22:00 Uhr",
+        "tournament_plz": "29229 Celle",
+        "tournament_street": "Krähenbergweg 71",
+        "tournament_link": "https://www.tennis.de/spielen/turniersuche.html#detail/672341"
+    }
+]
