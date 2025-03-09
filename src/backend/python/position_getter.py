@@ -37,6 +37,10 @@ while True:
         scroll_count_down_ten += 1 
         sleep(0.5)
 
+    elif kb.is_pressed("g"):
+        pag.scroll(500)
+        sleep(0.5)
+
     elif kb.is_pressed("d"):
         print(scroll_count_down_ten)
         print()
@@ -54,10 +58,6 @@ while True:
         scroll_count_up_ten = 0
         sleep(0.5)
 
-    elif kb.is_pressed("g"):
-        pag.scroll(constants.SEE_TOURNAMENTS_OFFSET)
-        sleep(0.5)
-    
     elif kb.is_pressed("h"):
         pag.scroll(scroll_down_one)
         scroll_count_down_one += 1 
