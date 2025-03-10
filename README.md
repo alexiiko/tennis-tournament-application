@@ -1,29 +1,8 @@
-# 🎾 Tennis Tournament API 🚀
-This is the unofficial API for retrieving relevant tournament data of tennis tournaments in Germany.
+# 🎾 Tennis Tournament Application 🚀
+This is the unofficial application for signing up to tennis tournaments in Germany.
 
 > [!WARNING]
-> The API is under active development and may be buggy.
-
-## ⚙️ How It Works
-🚀 Using the pyautogui library, the data_getter.py script automates the process step by step:
-
-🌐 1. The script launches a web browser and navigates to the tournament platform.  
-🔍 2. It searches for all tournaments in the specific age class and scrolls through each of them.  
-📋 3. The script copies the details of each specific tournament and stores them in variables.  
-📂 4. The extracted data is structured and returned in JSON format.
-
-## 📖 How to Use
-> [!NOTE]
-> Have the latest python version installed.
-
-1. Open a directory with a terminal.
-2. Run `python -m venv .` in the directory.
-3. Clone the repository into the directory.
-5. Run `source Scripts/activate`.
-5. Run `pip install -r src/requirements.txt`.
-6. Run the main file with `python data_getter.py`.
-> [!CAUTION]
-> When running there is a possibility that the coordinates of the elements don't align with your screen. This could lead into pressing `enter` at the wrong time.
+> The application currently is under active development!
 
 ## 💡 Motivation 💡
 🔍 The current platforms for searching tournaments lack efficiency and have poor usability.  
