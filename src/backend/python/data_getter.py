@@ -3,6 +3,7 @@ import keyboard as kb
 import pyperclip
 import re
 import constants
+import platform_credentials
 from time import sleep, time
 from typing import Tuple, Dict
 
@@ -166,7 +167,7 @@ def scroll_through_tournaments():
                     pag.press("enter")
                     sleep(0.5)
 
-            for tournament_number in range(tournament_amount - 1, tournament_amount + 1):
+            for tournament_number in range(1, tournament_amount + 1):
                 reset_zoom()
                 sleep(0.5)
                 scroll_to_top_of_page()
@@ -191,6 +192,8 @@ def scroll_through_tournaments():
             sleep(0.5)
             execute_fail_safe()
 
+    pag.hotkey("ctrl", "w")
+
 
 def open_chrome_browser():
     pag.press("super")
@@ -209,9 +212,51 @@ def open_tournament_platform():
     sleep(constants.SLEEP_TIME_FOR_LOADING + 3)
 
 
+def log_out_of_the_platform():
+    open_tournament_platform()
+    pag.click(constants.ACCOUNT_BUTTON)
+    sleep(2)
+    pag.click(constants.LOG_OUT_BUTTON)
+    sleep(4)
+
+    pag.hotkey("ctrl", "w")
+
+
+def log_into_the_platform():
+    open_tournament_platform()
+    pyperclip.copy("https://www.tennis.de/spielen/turniersuche.html#search")
+    pag.hotkey("ctrl", "v")
+    pag.press("enter")
+    sleep(constants.SLEEP_TIME_FOR_LOADING + 3)
+
+    pag.click(constants.ACCOUNT_BUTTON)
+    sleep(constants.SLEEP_TIME_FOR_LOADING)
+    pag.click(constants.ACCOUNT_BUTTON)
+    sleep(constants.SLEEP_TIME_FOR_LOADING + 2)
+
+    pag.click(constants.EMAIL_INPUT_FIELD)
+    sleep(1.1)
+    pyperclip.copy(platform_credentials.E_MAIL)
+    pag.hotkey("ctrl", "v")
+    pag.press("esc")
+    sleep(1.1)
+    pag.click(constants.PASSWORD_INPUT_FIELD)
+    pag.press("esc")
+    sleep(1.1)
+    pyperclip.copy(platform_credentials.PASSWORD)
+    pag.hotkey("ctrl", "v")
+    sleep(1.1)
+    pag.click(constants.LOGIN_BUTTON)
+    sleep(5)
+
+    pag.hotkey("ctrl", "w")
+
+
 def return_tournaments_with_data():
+    log_into_the_platform()
     open_tournament_platform()
     scroll_through_tournaments()
+    log_out_of_the_platform()
     return all_tournaments_with_data
 
 
@@ -225,3 +270,4 @@ def main():
             open_tournament_platform()
             scroll_through_tournaments()
             sleep(0.5)
+
