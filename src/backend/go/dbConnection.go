@@ -10,7 +10,6 @@ import (
 
 	"libsqlDB/dbCredentials"
 
-	// _ "github.com/mattn/go-sqlite3"
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
@@ -58,7 +57,7 @@ func main() {
             tournamentlinks = append(tournamentlinks, link)
         }
 
-        jsonFile, err := os.Open(fmt.Sprintf("../tournament_data/%s.json", ageClass))
+        jsonFile, err := os.Open(fmt.Sprintf("/tournament_data/%s.json", ageClass))
         if err != nil {
             fmt.Println(fmt.Sprintf("Error opening the %s json file: ", ageClass), err)
             os.Exit(1)
