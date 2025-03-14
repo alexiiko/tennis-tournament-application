@@ -18,8 +18,8 @@ type Tournament struct {
     Title string `json:"tournament_title"`
     Link string `json:"tournament_link"`
     EventDate string `json:"tournament_date"`
-    RegisStart string `json:"tournament_registration_end"`
-    RegisEnd string `json:"tournament_registration_start"`
+    RegisStart string `json:"tournament_registration_start"`
+    RegisEnd string `json:"tournament_registration_end"`
     Draw string `json:"tournament_draw_date"`
     PLZ string `json:"tournament_plz"`
     Street string `json:"tournament_street"`
