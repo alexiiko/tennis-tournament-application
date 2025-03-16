@@ -13,9 +13,55 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'test',
-      home: const SignedInTournamentsPage(), // replace with search tournaments page 
+      home: NavigationBar(),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
+
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: Colors.white,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey
+        )
+      ),
     );
   }
+}
+
+class NavigationBar extends StatefulWidget {
+    @override 
+    _NavigationBarState createState() => _NavigationBarState();
+}
+
+class _NavigationBarState extends State<NavigationBar> {
+    int _selectedPageIndex = 0;
+
+    final List<Widget> _pages = [
+        SearchTournamentsPage(),
+        SignedInTournamentsPage(),
+        SettingsPage()
+    ];
+
+    void _onTappedPage(int pageIndex) {
+        setState(() {
+            _selectedPageIndex = pageIndex;
+        });
+    }
+
+    @override 
+    Widget build(BuildContext context) {
+        return Scaffold(
+            body: _pages[_selectedPageIndex],
+            bottomNavigationBar: BottomNavigationBar(
+                items: [
+                    BottomNavigationBarItem(label: "Turniere suchen", icon: Icon(Icons.search)),
+                    BottomNavigationBarItem(label: "angemeldete Turniere", icon: Icon(Icons.description)),
+                    BottomNavigationBarItem(label: "Einstellungen", icon: Icon(Icons.settings)),
+                ],
+                currentIndex: _selectedPageIndex,
+                onTap: _onTappedPage,
+            ),
+        );
+    }
 }
