@@ -31,7 +31,7 @@ class App extends StatelessWidget {
 
 class NavigationBar extends StatefulWidget {
     @override 
-    _NavigationBarState createState() => _NavigationBarState();
+    State<NavigationBar> createState() => _NavigationBarState();
 }
 
 class _NavigationBarState extends State<NavigationBar> {
