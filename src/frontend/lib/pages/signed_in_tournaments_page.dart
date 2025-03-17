@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SignedInTournamentsPage extends StatefulWidget {
     const SignedInTournamentsPage({super.key});

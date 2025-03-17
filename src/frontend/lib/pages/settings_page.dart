@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SettingsPage extends StatefulWidget {
     const SettingsPage({super.key});
