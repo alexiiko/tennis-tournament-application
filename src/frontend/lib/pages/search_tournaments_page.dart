@@ -10,14 +10,79 @@ class SearchTournamentsPage extends StatefulWidget {
 class _SearchTournamentsPageState extends State<SearchTournamentsPage> {
     @override
     Widget build(BuildContext context) {
-    return (
-            Center(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [ 
-                    AgeClassesDropdownMenu(),
-                    SearchButton()
-                    ]
+        return Scaffold(
+            body: SingleChildScrollView(
+                child: Column(
+                    children: [
+                        Container(
+                            padding: EdgeInsets.only(top: 40, right: 20, left: 20),
+                            child: Row(
+                                children: [
+                                    Expanded(flex: 2, child: AgeClassesDropdownMenu(),),
+                                    Expanded(flex: 1, child: SearchButton(),)
+                                ],         
+                            ),
+                        ),
+                        Container(
+                        padding: EdgeInsets.only(bottom: 20, top: 13, left: 5, right: 5),
+                            child: Row(
+                                children: [
+                                    Expanded(
+                                        child: Column(
+                                            children: [
+                                                Card(
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                        children: [
+                                                            Text("Academy Cup - DTB Jugend"),
+                                                            Row(
+                                                                children: [
+                                                                    Expanded(flex: 1, child: Text("29.03.2025")),
+                                                                    Expanded(flex: 1, child: Text("8 Tage"))
+                                                                ],
+                                                            ),
+                                                            Row(
+                                                                children: [
+                                                                    Expanded(flex: 1, child: Text("Berliner Str. 83")),
+                                                                    Expanded(flex: 1, child: Text("500 KM"))
+                                                                ],
+                                                            )
+                                                        ],
+                                                    ),
+                                                )
+                                            ],
+                                        ),
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                            children: [
+                                                Card(
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                        children: [
+                                                            Text("Academy Cup - DTB Jugend"),
+                                                            Row(
+                                                                children: [
+                                                                    Expanded(flex: 1, child: Text("29.03.2025")),
+                                                                    Expanded(flex: 1, child: Text("8 Tage"))
+                                                                ],
+                                                            ),
+                                                            Row(
+                                                                children: [
+                                                                    Expanded(flex: 1, child: Text("Berliner Str. 83")),
+                                                                    Expanded(flex: 1, child: Text("500 KM"))
+                                                                ],
+                                                            )
+                                                        ],
+                                                    ),
+                                                )
+                                            ],
+                                        ),
+                                    ),
+                                ],
+                            ),
+                        )
+                    ],
                 ),
             )
         );
@@ -43,7 +108,7 @@ class _AgeClassesDropdownMenuState extends State<AgeClassesDropdownMenu> {
                     currentAgeClass = otherAgeClass!; 
                 });
             },
-            items: <String>['M18', 'M16', 'M14', 'M13']
+            items: <String>['M18', 'M16', 'M14', 'M13', 'M12', 'M11', 'W18', 'W16', 'W14', 'W13', 'W12', 'W11']
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
