@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'db_credentials.dart';
 
-void main() async {
-  final url = "https://tournaments-alexiiko.turso.io/v2/pipeline";
-  final authToken = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDI1NTc4ODcsImlkIjoiY2Q2YWU3ODItZDExYy00YjM2LTg4ZmQtZmUzODdlMTY4NmE1In0.84CZOwb9ObGS2YnOG_L4H8LN-GXriXXk44arpgNvBX9J1Dgc52npPSle8EYn5UewCRw3H3iJG0-sQrW_vMRfAw";
-
+void returnTournamentsFromAgeClass (String ageClass) async {
   final response = await http.post(
     Uri.parse(url),
     headers: {
@@ -13,7 +11,7 @@ void main() async {
     },
     body: jsonEncode({
       "requests": [
-        {"type": "execute", "stmt": {"sql": "SELECT link FROM M12"}},
+        {"type": "execute", "stmt": {"sql": "SELECT link FROM $ageClass"}},
         {"type": "close"},
       ],
     }),
@@ -24,4 +22,12 @@ void main() async {
   } else {
     print('Error: ${response.statusCode}, ${response.body}');
   }
+}
+
+void main() {
+    var ageClassArray = ["M11", "M12", "M13", "M14", "M16", "M18"];
+    for (var i = 0; i < ageClassArray.length; i++) {
+        returnTournamentsFromAgeClass(ageClassArray[i]);
+        print("\n");
+    }
 }
