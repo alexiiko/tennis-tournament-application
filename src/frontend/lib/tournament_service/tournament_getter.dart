@@ -24,9 +24,8 @@ Future<Map> returnTournamentData(String ageClass) async {
     }
 }
 
-Future<List> returnTournamentDataFromAgeClass() async {
-    var ageClassArray = ["M11", "M12", "M13", "M14", "M16", "M18"];
-    var result = await returnTournamentData(ageClassArray[0]);
+Future<List> returnTournamentDataFromAgeClass(String ageClass) async {
+    var result = await returnTournamentData(ageClass);
     var tournamentDataAPI = result["results"][0]["response"]["result"]["rows"];
 
     var allTournaments = [];
