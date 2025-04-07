@@ -19,4 +19,4 @@ This is the unofficial application for signing up to tennis tournaments in Germa
 
 ## 📌 Progress Tracking
 📋 To track the development progress, check out the Notion Kanban Board:  
-👉 [Notion Kanban Board](https://fearless-play-bd6.notion.site/18c17400d33a801983d3dc525004e33f?v=18c17400d33a808d863b000c23349fdb&pvs=4)
+👉 [Notion Kanban Board](https://tennis-tournament-application.notion.site/18c17400d33a801983d3dc525004e33f?v=18c17400d33a808d863b000c23349fdb&pvs=4)
