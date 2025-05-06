@@ -18,5 +18,5 @@ This is the unofficial application for signing up to tennis tournaments in Germa
 2️⃣ If the code is solid, it gets merged! 🎉  
 
 ## 📌 Progress Tracking
-📋 To track the development progress, check out the Notion Kanban Board:  
-👉 [Notion Kanban Board](https://tennis-tournament-application.notion.site/18c17400d33a801983d3dc525004e33f?v=18c17400d33a808d863b000c23349fdb&pvs=4)
+📋 To track the development progress and mockups, check out the Notion Page:    
+👉 [Notion Page](https://tennis-tournament-application.notion.site/Tennis-Tournament-Application-1e117400d33a80d88b53fa067bfefb63?pvs=4)
