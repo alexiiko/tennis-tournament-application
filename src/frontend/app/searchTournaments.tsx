@@ -1,21 +1,26 @@
 import { retrieveDBData } from "../services/fetchDataDB.js";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Card, Icon} from "react-native-paper";
+import { Button, Card, Divider, Text} from "react-native-paper";
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useState } from "react";
 
 export default function main() {
-  const [showFilters, setShowFilters] = useState(false);
-  const [selectedAgeClasses, setSelectedAgeClasses] = useState([]);
+  const [showFilters, setShowFilters] = useState(false)
+  let [selectedAgeClasses, setSelectedAgeClasses] = useState([])
 
   const toggleAgeClass = (ageClass: string) => {
     setSelectedAgeClasses((prev) =>
       prev.includes(ageClass)
         ? prev.filter((item) => item !== ageClass)
         : [...prev, ageClass]
-    );
-  };
+    )
+  }
+
+  const removeSelectedAgeClasses = () => {
+    setSelectedAgeClasses([])
+    console.log("removed age classes")
+  }
 
   return (
     <SafeAreaView>
@@ -30,35 +35,62 @@ export default function main() {
             marginRight: 5,
             height: 65
           }}>
-          <View className="searchBarIconsAndSelectedAgeClasses">
+          <View className="searchBarIconsAndSelectedAgeClasses" style={{ flexDirection: "row"}}>
             <Button
-              icon={() => <Ionicons name="options-outline" size={24} color="black" />}              textColor="black"
+              icon={() => <Ionicons name="options-outline" size={24} color="black" />}
+              textColor="black"
               buttonColor="transparent"
-              style={{ position: "absolute", left: 0 }}
+              contentStyle={{
+                marginLeft: 12
+              }}
               onPress={() => setShowFilters((prev) => !prev)}
             />
-            <View className="showSelectedAgeClasses" style={{ flexDirection: "row", flexWrap: "wrap"}}>
-              {selectedAgeClasses.map((ageClass) => (
-              <Button
-                key={ageClass + "_selected"}
-                mode="outlined"
-                style={{ 
+            {selectedAgeClasses.slice(0,2).map((ageClass) => (
+            <Button
+              key={ageClass + "_selected"}
+              mode="outlined"
+              style={{ 
+                borderColor: "black",
+                borderWidth: 0.85,
+                borderRadius: 12,
+                backgroundColor: "white",
+                marginLeft: 5,
+              }}
+              textColor="black"
+              onLongPress={() => toggleAgeClass(ageClass)}>
+              {ageClass}
+            </Button>
+            ))}
+            {selectedAgeClasses.length > 2 && (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "white",
+                  borderWidth: 1,
                   borderColor: "black",
-                  borderWidth: 0.85,
                   borderRadius: 12,
-                  backgroundColor: "lightgrey",
+                  paddingVertical: 4,
+                  paddingHorizontal: 6,
+                  marginLeft: 5,
+                  width: 50,
+                  justifyContent: "center",
+                  alignItems: "center"
                 }}
-                textColor="black"
-                onPress={() => toggleAgeClass(ageClass)}>
-                {ageClass}
-              </Button>
-              ))}
-            </View>
+                onPress={() => setShowFilters((prev) => !prev)}
+              >
+                <Text style={{ color: "black", fontSize: 24}}>...</Text>
+              </TouchableOpacity>
+            )}
             <Button
               icon={() => (<Ionicons name="search-outline" size={24}/>)}
               textColor="black"
               buttonColor="transparent"
-              style={{ position: "absolute", right: 0 }}
+              style={{ 
+                position: "absolute",
+                right: 0,
+              }}
+              contentStyle={{
+                marginLeft: 12
+              }}
               onPress={() => {console.log(selectedAgeClasses)}}
             />
           </View>
@@ -68,8 +100,41 @@ export default function main() {
           <Card style={styles.filterWindow}>
             <View className="ageClassButtons">
               <Card.Content>
-                <View className="ageClassButtonsLayout" style={{ flexDirection: "row"}}>
-                  <View className="ageClassButtonsMen">
+                <View className="removeSelectedAgeClassesButton">
+                  <Button 
+  icon="trash-can-outline"
+  mode="outlined"
+  style={{
+    borderColor: "black",
+    borderWidth: 0.85,
+    backgroundColor: "transparent",
+    marginTop: 15,
+    alignSelf: "flex-start", // optional: keeps it from stretching full width
+  }}  
+  textColor="black"
+  contentStyle={{
+    flexDirection: "row", // ← icon left, text right
+    justifyContent: "flex-start", // ← align left
+    marginRight: 8
+  }}
+  labelStyle={{
+    marginRight: 8, // spacing between icon and text
+    fontSize: 16,
+    fontWeight: "100"
+  }}
+  onPress={removeSelectedAgeClasses}
+>
+  Filter löschen
+</Button>
+                </View>    
+              <View className="ageClassButtonsLayout" style={{ flexDirection: "column"}}>
+                <View className="maleJuniorsAgeClassesWrapper">
+                  <View className="headerMaleJuniorsHeaderWrapper" style={{flexDirection: "row"}}>
+                    <Button icon="face-man" contentStyle={{marginLeft: 12, marginTop: 3}} textColor="black"> </Button>
+                    <Text style={{marginTop: 10, fontSize: 18}}>Junioren</Text>
+                  </View>
+                  <Divider />
+                  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                     <Button key={"M11"} onPress={() => toggleAgeClass("M11")}
                       style={[styles.firstAgeClassButton, selectedAgeClasses.includes("M11") && {backgroundColor: "lightgrey"}]}
                       textColor="black"
@@ -86,8 +151,16 @@ export default function main() {
                       style={[styles.lastAgeClassButton, selectedAgeClasses.includes("M18") && {backgroundColor: "lightgrey"}]}
                       textColor="black"
                     >M18</Button>
+                  </ScrollView>
+                </View>
+
+                <View className="femaleJuniorsAgeClassesWrapper" style={{ marginBottom: 10 }}>
+                  <View className="headerFemaleJuniorsHeaderWrapper" style={{flexDirection: "row"}}>
+                    <Button icon="face-woman" contentStyle={{marginLeft: 12, marginTop: 3}} textColor="black"> </Button>
+                  <Text style={{marginTop: 10, fontSize: 18}}>Juniorinnen</Text>
                   </View>
-                  <View className="ageClassButtonsWomen">
+                  <Divider />
+                  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                     <Button key={"W11"} onPress={() => toggleAgeClass("W11")}
                       style={[styles.firstAgeClassButton, selectedAgeClasses.includes("W11") && {backgroundColor: "lightgrey"}]}
                       textColor="black"
@@ -104,15 +177,16 @@ export default function main() {
                       style={[styles.lastAgeClassButton, selectedAgeClasses.includes("W18") && {backgroundColor: "lightgrey"}]}
                       textColor="black"
                     >W18</Button>
-                  </View>
+                  </ScrollView>
                 </View>
-             </Card.Content>
-            </View>
-          </Card>
-        )}
+              </View>
+            </Card.Content>
+          </View>
+        </Card>
+      )}
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 
@@ -125,12 +199,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 4,
     borderRadius: 10,
-    maxWidth: 165,
   },
   ageClassButton: {
     borderColor: "black",
     borderWidth: 0.85,
-    marginTop: 3,
+    marginTop: 5,
     marginBottom: 3,
     marginRight: 5,
     borderRadius: 12,
@@ -138,7 +211,7 @@ const styles = StyleSheet.create({
   firstAgeClassButton: {
     borderColor: "black",
     borderWidth: 0.85,
-    marginTop: 13,
+    marginTop: 5,
     marginBottom: 3,
     marginRight: 5,
     borderRadius: 12
@@ -146,15 +219,13 @@ const styles = StyleSheet.create({
   lastAgeClassButton: {
     borderColor: "black",
     borderWidth: 0.85,
-    marginTop: 3,
-    marginBottom: 13,
-    marginRight: 5,
+    marginTop: 5,
+    marginBottom: 3,
     borderRadius: 12
   }
-});
+})
 
 // todos:
-// - add clear all age classes button in filter window
-//     -> this button removes all the selected age classes out of the selectedAgeClasses array
-// - add headers for Herren and Damen in the filter window
+// - make trash can icon bigger in filter screen
+// - make the text to delete the selected age classes not bold 
 // - add cache for selected age classes
