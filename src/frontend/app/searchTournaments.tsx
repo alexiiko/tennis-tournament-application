@@ -1,13 +1,14 @@
-import { retrieveDBData } from "../services/fetchDataDB.js";
 import { View, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Card, Divider, Text} from "react-native-paper";
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useState } from "react";
+import { retrieveTournaments } from "../services/fetchDataDB.js"
 
 export default function main() {
   const [showFilters, setShowFilters] = useState(false)
-  let [selectedAgeClasses, setSelectedAgeClasses] = useState([])
+  let [selectedAgeClasses, setSelectedAgeClasses] = useState(["M11"])
+  let [tournaments, setTournaments] = useState<string[][]>([])
 
   const toggleAgeClass = (ageClass: string) => {
     setSelectedAgeClasses((prev) =>
@@ -20,6 +21,44 @@ export default function main() {
   const removeSelectedAgeClasses = () => {
     setSelectedAgeClasses([])
     console.log("removed age classes")
+  }
+
+  const renderTournaments = async () => {
+    let allTournaments = []
+    for (let selectedAgeClassesIndex = 0; selectedAgeClassesIndex < selectedAgeClasses.length; selectedAgeClassesIndex++) {
+      let retrievedTournaments = await retrieveTournaments(selectedAgeClasses[selectedAgeClassesIndex])
+      let tournamentData = [] 
+      for (let tournamentIndex = 0; tournamentIndex < retrievedTournaments.length; tournamentIndex++) {
+        for (let propertyIndex = 1; propertyIndex < retrievedTournaments[tournamentIndex].length; propertyIndex++) { // we start with the propertyIndex 1 as we do not want to store the ID of each tournament
+        // because the IDs create problems when checking if there are duplicate tournaments 
+          tournamentData.push(retrievedTournaments[tournamentIndex][propertyIndex].value)
+        }
+
+        allTournaments.push(tournamentData)
+        tournamentData = [] 
+      }
+    }
+    setTournaments(allTournaments)
+    removeDuplicateTournaments()
+  }
+
+  const removeDuplicateTournaments = () => {
+    if (!tournaments) {
+      return [];     
+    }
+
+    const uniqueTournaments = [];
+    const seenEntryStrings = new Set<string>();
+
+    for (const entry of tournaments) {
+      const entryString = JSON.stringify(entry); 
+      if (!seenEntryStrings.has(entryString)) {
+        seenEntryStrings.add(entryString);
+        uniqueTournaments.push(entry); 
+      }
+    }
+
+    setTournaments(uniqueTournaments)
   }
 
   return (
@@ -91,7 +130,7 @@ export default function main() {
               contentStyle={{
                 marginLeft: 12
               }}
-              onPress={() => {console.log(selectedAgeClasses)}}
+              onPress={renderTournaments}
             />
           </View>
         </View>
@@ -102,30 +141,29 @@ export default function main() {
               <Card.Content>
                 <View className="removeSelectedAgeClassesButton">
                   <Button 
-  icon="trash-can-outline"
-  mode="outlined"
-  style={{
-    borderColor: "black",
-    borderWidth: 0.85,
-    backgroundColor: "transparent",
-    marginTop: 15,
-    alignSelf: "flex-start", // optional: keeps it from stretching full width
-  }}  
-  textColor="black"
-  contentStyle={{
-    flexDirection: "row", // ← icon left, text right
-    justifyContent: "flex-start", // ← align left
-    marginRight: 8
-  }}
-  labelStyle={{
-    marginRight: 8, // spacing between icon and text
-    fontSize: 16,
-    fontWeight: "100"
-  }}
-  onPress={removeSelectedAgeClasses}
->
-  Filter löschen
-</Button>
+                    icon="trash-can-outline"
+                    mode="outlined"
+                    style={{
+                      borderColor: "black",
+                      borderWidth: 0.85,
+                      backgroundColor: "transparent",
+                      marginTop: 15,
+                      alignSelf: "flex-start",
+                    }}  
+                    textColor="black"
+                    contentStyle={{
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                      marginRight: 8
+                    }}
+                    labelStyle={{
+                      marginRight: 8,
+                      fontSize: 16,
+                      fontWeight: "100"
+                    }}
+                    onPress={removeSelectedAgeClasses}>
+                    Filter löschen
+                  </Button>
                 </View>    
               <View className="ageClassButtonsLayout" style={{ flexDirection: "column"}}>
                 <View className="maleJuniorsAgeClassesWrapper">
