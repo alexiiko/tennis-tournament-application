@@ -1,5 +1,5 @@
 // we access the tournament data via https as turso does not support compatibility with react native  
-import { dbAuthToken, dbURL } from "./dbCredentials.js"
+import { dbAuthToken, dbURL } from "./serviceCredentials.js"
 
 export async function retrieveTournaments(ageClass) {
   const tursoAPIResponse = await fetch( dbURL,{
