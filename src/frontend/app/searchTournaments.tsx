@@ -4,6 +4,7 @@ import { Button, Card, Divider, Text} from "react-native-paper";
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useState } from "react";
 import { retrieveTournaments } from "../services/fetchDataDB.js"
+import { retrieveDistanceAndTimeBetweenTournamentAndUser } from "../services/fetchDistanceTimeTournaments.js"
 
 export default function main() {
   const [showFilters, setShowFilters] = useState(false)
@@ -24,6 +25,7 @@ export default function main() {
   }
 
   const renderTournaments = async () => {
+    setTournaments([])
     let allTournaments = []
     for (let selectedAgeClassesIndex = 0; selectedAgeClassesIndex < selectedAgeClasses.length; selectedAgeClassesIndex++) {
       let retrievedTournaments = await retrieveTournaments(selectedAgeClasses[selectedAgeClassesIndex])
@@ -39,14 +41,11 @@ export default function main() {
       }
     }
     setTournaments(allTournaments)
-    removeDuplicateTournaments()
+    //removeDuplicateTournaments()
   }
 
   const removeDuplicateTournaments = () => {
-    if (!tournaments) {
-      return [];     
-    }
-
+    // todo: fix this (currently only returning an empty array )
     const uniqueTournaments = [];
     const seenEntryStrings = new Set<string>();
 
@@ -134,6 +133,18 @@ export default function main() {
             />
           </View>
         </View>
+
+        <ScrollView className="tournaments" horizontal={false} showsVerticalScrollIndicator={false} style={{ marginTop: 10, marginLeft: 5, marginRight: 5}}>
+        {tournaments.map((tournamentInformation, keyIndex) => (
+          <View className="tournamentWindow" style={{ borderWidth: 0.85, marginBottom: 5, flexDirection: "column" }}>
+            <Text key={keyIndex}>{tournamentInformation[0]}</Text>
+            <View className="tournamentWindowSecondInformationRow" style={{ flexDirection: "row" }}>
+              <Text key={keyIndex}>{tournamentInformation[1].slice(0, 6)}</Text>
+              <Text key={keyIndex + 1}>{tournamentInformation[2]}</Text>
+            </View>
+          </View>
+        ))} 
+        </ScrollView>
 
         {showFilters && (
           <Card style={styles.filterWindow}>
