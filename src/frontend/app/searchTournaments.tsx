@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Card, Divider, Text} from "react-native-paper";
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -10,6 +10,38 @@ export default function main() {
   const [showFilters, setShowFilters] = useState(false)
   let [selectedAgeClasses, setSelectedAgeClasses] = useState(["M11"])
   let [tournaments, setTournaments] = useState<string[][]>([])
+  let [loadingTournamentsInformation, setLoadingTournamentsInformation] = useState(false)
+  let [loadedTournamentsAmount, setLoadedTournamentsAmount] = useState(0)
+  let [currentlySearching, setCurrentlySearching] = useState(false)
+
+  const addDurationsAndDistances = async (tournamentsData: any) => {
+    let allTournaments = [...tournamentsData]
+    
+    for (let tournamentIndex = 0; tournamentIndex < tournamentsData.length; tournamentIndex++) {
+      const distanceAndDuration = await retrieveDistanceAndTimeBetweenTournamentAndUser(
+        "An der Geisel 10", 
+        tournamentsData[tournamentIndex][5]
+      );
+      
+      if (Array.isArray(distanceAndDuration)) {
+        allTournaments[tournamentIndex] = [
+          ...allTournaments[tournamentIndex],
+          distanceAndDuration[0], 
+          distanceAndDuration[1]  
+        ];
+      } else {
+        allTournaments[tournamentIndex] = [
+          ...allTournaments[tournamentIndex],
+          "N/A", 
+          "N/A"  
+        ];
+      }
+      setLoadedTournamentsAmount(tournamentIndex)
+    }
+
+    setTournaments(allTournaments);
+    return allTournaments;
+  }
 
   const toggleAgeClass = (ageClass: string) => {
     setSelectedAgeClasses((prev) =>
@@ -21,43 +53,68 @@ export default function main() {
 
   const removeSelectedAgeClasses = () => {
     setSelectedAgeClasses([])
-    console.log("removed age classes")
   }
 
   const renderTournaments = async () => {
     setTournaments([])
     let allTournaments = []
+    
     for (let selectedAgeClassesIndex = 0; selectedAgeClassesIndex < selectedAgeClasses.length; selectedAgeClassesIndex++) {
-      let retrievedTournaments = await retrieveTournaments(selectedAgeClasses[selectedAgeClassesIndex])
-      let tournamentData = [] 
-      for (let tournamentIndex = 0; tournamentIndex < retrievedTournaments.length; tournamentIndex++) {
-        for (let propertyIndex = 1; propertyIndex < retrievedTournaments[tournamentIndex].length; propertyIndex++) { // we start with the propertyIndex 1 as we do not want to store the ID of each tournament
-        // because the IDs create problems when checking if there are duplicate tournaments 
-          tournamentData.push(retrievedTournaments[tournamentIndex][propertyIndex].value)
+        let retrievedTournaments = await retrieveTournaments(selectedAgeClasses[selectedAgeClassesIndex])
+        
+        for (let tournamentIndex = 0; tournamentIndex < retrievedTournaments.length; tournamentIndex++) {
+          let tournamentData = [] 
+          for (let propertyIndex = 1; propertyIndex < retrievedTournaments[tournamentIndex].length; propertyIndex++) {
+            tournamentData.push(retrievedTournaments[tournamentIndex][propertyIndex].value)
+          }
+          allTournaments.push(tournamentData)
         }
-
-        allTournaments.push(tournamentData)
-        tournamentData = [] 
-      }
     }
+    
     setTournaments(allTournaments)
-    //removeDuplicateTournaments()
+    return allTournaments;
   }
 
-  const removeDuplicateTournaments = () => {
-    // todo: fix this (currently only returning an empty array )
-    const uniqueTournaments = [];
-    const seenEntryStrings = new Set<string>();
-
-    for (const entry of tournaments) {
-      const entryString = JSON.stringify(entry); 
-      if (!seenEntryStrings.has(entryString)) {
-        seenEntryStrings.add(entryString);
-        uniqueTournaments.push(entry); 
-      }
+  const searchTournaments = async () => {
+    setLoadingTournamentsInformation(true)
+    setCurrentlySearching(true)
+    
+    const tournamentsData = await renderTournaments()
+    
+    if (tournamentsData.length > 0) {
+      await addDurationsAndDistances(tournamentsData)
+    } else {
+      setTournaments([])
     }
+    setLoadingTournamentsInformation(false)
+    setCurrentlySearching(false)
+  }
 
-    setTournaments(uniqueTournaments)
+  const formatCurrentDate = (date: Date) => {
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+    return `${day}.${month}.${year}`
+  }
+
+  const parseDateStringsToDateObjects = (date: string): Date => {
+    const [day, month, year] = date.split('.')
+    return new Date(Number(year), Number(month) - 1, Number(day))
+  }
+
+  const calculateDaysUntilTournamentSignUp = (tournamentDate: string) => {
+    const currentDate = new Date()
+    const currentParsed = parseDateStringsToDateObjects(formatCurrentDate(currentDate))
+    const tournamentParsed = parseDateStringsToDateObjects(tournamentDate)
+
+    const oneDay = 1000 * 60 * 60 * 24
+    const deltaDays = tournamentParsed.getTime() - currentParsed.getTime()
+
+    if (deltaDays <= 0) {
+      return "Vorbei!"
+    } else {
+      return String(Math.round(deltaDays / oneDay)) + " Tage"
+    }
   }
 
   return (
@@ -129,22 +186,36 @@ export default function main() {
               contentStyle={{
                 marginLeft: 12
               }}
-              onPress={renderTournaments}
+              onPress={searchTournaments}
+              disabled={currentlySearching}
             />
           </View>
         </View>
 
+        { loadingTournamentsInformation ? (
+          <View>
+            <ActivityIndicator size={"large"} color={"black"} style={{ marginTop: 20}}></ActivityIndicator>
+            <Text>{loadedTournamentsAmount}/{tournaments.length}</Text>
+          </View>
+        ) : (
         <ScrollView className="tournaments" horizontal={false} showsVerticalScrollIndicator={false} style={{ marginTop: 10, marginLeft: 5, marginRight: 5}}>
         {tournaments.map((tournamentInformation, keyIndex) => (
-          <View className="tournamentWindow" style={{ borderWidth: 0.85, marginBottom: 5, flexDirection: "column" }}>
-            <Text key={keyIndex}>{tournamentInformation[0]}</Text>
-            <View className="tournamentWindowSecondInformationRow" style={{ flexDirection: "row" }}>
-              <Text key={keyIndex}>{tournamentInformation[1].slice(0, 6)}</Text>
-              <Text key={keyIndex + 1}>{tournamentInformation[2]}</Text>
+          <View key={keyIndex} className="tournamentWindow" style={{ borderWidth: 0.85, marginBottom: 10, flexDirection: "column", }}>
+            <Text >{tournamentInformation[0]}</Text>
+            <View className="tournamentWindowSignUpDaysOccuringDate" style={{ flexDirection: "row", marginBottom: 5 }}>
+              <Text>{calculateDaysUntilTournamentSignUp(tournamentInformation[4].slice(0,10) || "")}</Text>
+              <Text>{tournamentInformation[1].slice(0, 6) || ""}</Text>
             </View>
+              {tournamentInformation[8] == "N/A" ? null : (
+                <View className="tournamentWindowDistanceAndDuration" style={{ flexDirection: "row"}}>
+                    <Text>{tournamentInformation[8]} km</Text>
+                    <Text>{tournamentInformation[9]} min</Text>
+                </View>
+              )}
           </View>
         ))} 
         </ScrollView>
+        )}
 
         {showFilters && (
           <Card style={styles.filterWindow}>
@@ -159,12 +230,10 @@ export default function main() {
                       borderWidth: 0.85,
                       backgroundColor: "transparent",
                       marginTop: 15,
-                      alignSelf: "flex-start",
                     }}  
                     textColor="black"
                     contentStyle={{
                       flexDirection: "row",
-                      justifyContent: "flex-start",
                       marginRight: 8
                     }}
                     labelStyle={{
@@ -238,7 +307,6 @@ export default function main() {
   )
 }
 
-
 const styles = StyleSheet.create({
   filterWindow: {
     position: "absolute",
@@ -273,8 +341,3 @@ const styles = StyleSheet.create({
     borderRadius: 12
   }
 })
-
-// todos:
-// - make trash can icon bigger in filter screen
-// - make the text to delete the selected age classes not bold 
-// - add cache for selected age classes
