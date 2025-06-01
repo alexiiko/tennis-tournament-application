@@ -13,6 +13,7 @@ export default function main() {
   let [loadingTournamentsInformation, setLoadingTournamentsInformation] = useState(false)
   let [loadedTournamentsAmount, setLoadedTournamentsAmount] = useState(0)
   let [currentlySearching, setCurrentlySearching] = useState(false)
+  let [orsApiSuccess, setOrsApiSuccess] = useState(false) // this variable is for checking wether the duration and distance to a tournament needs to be shown or nor  
 
   const addDurationsAndDistances = async (tournamentsData: any) => {
     let allTournaments = [...tournamentsData]
@@ -20,7 +21,7 @@ export default function main() {
     for (let tournamentIndex = 0; tournamentIndex < tournamentsData.length; tournamentIndex++) {
       const distanceAndDuration = await retrieveDistanceAndTimeBetweenTournamentAndUser(
         "An der Geisel 10", 
-        tournamentsData[tournamentIndex][5]
+        tournamentsData[tournamentIndex][5] + ", " + tournamentsData[tournamentIndex][6]
       );
       
       if (Array.isArray(distanceAndDuration)) {
@@ -29,12 +30,14 @@ export default function main() {
           distanceAndDuration[0], 
           distanceAndDuration[1]  
         ];
+        setOrsApiSuccess(true)
       } else {
         allTournaments[tournamentIndex] = [
           ...allTournaments[tournamentIndex],
           "N/A", 
           "N/A"  
         ];
+        setOrsApiSuccess(false)
       }
       setLoadedTournamentsAmount(tournamentIndex)
     }
@@ -118,8 +121,8 @@ export default function main() {
   }
 
   return (
-    <SafeAreaView>
-      <View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View className="searchPage" style={{ flex: 1 }}>
         <View className="searchBarBorder"
           style={{
             borderWidth: 1,
@@ -128,7 +131,8 @@ export default function main() {
             borderRadius: 7,
             marginLeft: 5,
             marginRight: 5,
-            height: 65
+            height: 65,
+            backgroundColor: "white"
           }}>
           <View className="searchBarIconsAndSelectedAgeClasses" style={{ flexDirection: "row"}}>
             <Button
@@ -136,7 +140,10 @@ export default function main() {
               textColor="black"
               buttonColor="transparent"
               contentStyle={{
-                marginLeft: 12
+                marginLeft: 12,
+                marginTop: 1.5
+              }}
+              style={{
               }}
               onPress={() => setShowFilters((prev) => !prev)}
             />
@@ -184,7 +191,8 @@ export default function main() {
                 right: 0,
               }}
               contentStyle={{
-                marginLeft: 12
+                marginLeft: 12,
+                marginTop: 1.5
               }}
               onPress={searchTournaments}
               disabled={currentlySearching}
@@ -193,25 +201,50 @@ export default function main() {
         </View>
 
         { loadingTournamentsInformation ? (
-          <View>
-            <ActivityIndicator size={"large"} color={"black"} style={{ marginTop: 20}}></ActivityIndicator>
-            <Text>{loadedTournamentsAmount}/{tournaments.length}</Text>
+          <View className="loadingAnimation" style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", flex: 1}}>
+            <ActivityIndicator size={64} color={"black"} style={{ marginTop: 20}}></ActivityIndicator>
+            <Text style={{ fontSize: 24 }}>{loadedTournamentsAmount}/{tournaments.length}</Text>
           </View>
         ) : (
-        <ScrollView className="tournaments" horizontal={false} showsVerticalScrollIndicator={false} style={{ marginTop: 10, marginLeft: 5, marginRight: 5}}>
+        <ScrollView className="tournaments" horizontal={false} showsVerticalScrollIndicator={false} style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}>
         {tournaments.map((tournamentInformation, keyIndex) => (
-          <View key={keyIndex} className="tournamentWindow" style={{ borderWidth: 0.85, marginBottom: 10, flexDirection: "column", }}>
-            <Text >{tournamentInformation[0]}</Text>
-            <View className="tournamentWindowSignUpDaysOccuringDate" style={{ flexDirection: "row", marginBottom: 5 }}>
-              <Text>{calculateDaysUntilTournamentSignUp(tournamentInformation[4].slice(0,10) || "")}</Text>
-              <Text>{tournamentInformation[1].slice(0, 6) || ""}</Text>
+          <View key={keyIndex} className="tournamentWindow" style={{ 
+            borderWidth: 0.85,
+            marginBottom: 10,
+            flexDirection: "column",
+            borderRadius: 36, 
+            borderColor: "black",
+            height: orsApiSuccess? 205 : 180,
+            backgroundColor: "white"
+          }}>
+          <View className="tournamentWindowInformation"style={{marginRight: 10, marginLeft: 10, marginTop: 10, marginBottom: 10}}>
+            <View className="tournamentWindowLogoAndTitle" style={{ flexDirection: "row" }}>
+              <Ionicons name="home-outline" size={48} style={{ margin: 10 }}/>
+              <Text style={{ margin: 10, fontSize: 24, marginTop: 20, flexShrink: 1, flex: 1}} numberOfLines={1} ellipsizeMode="tail">{tournamentInformation[0]}</Text>
             </View>
+              <View className="tournamentWindowSignUpDaysAndOccuringDate" style={{ flexDirection: "row" }}>
+                <View className="daysUntilSignUp" style={{ flexDirection: "row", margin: 10, flex: 1 }}>
+                  <Ionicons name="hourglass-outline" size={36} style={{ marginLeft: 6 }} />
+                  <Text style={{ marginLeft: 10, fontSize: 18, marginTop: 5}}>{calculateDaysUntilTournamentSignUp(tournamentInformation[4].slice(0,10))}</Text>
+                </View>
+                <View className="occuringDate"style={{ flexDirection: "row", margin: 10, flex: 1 }}>
+                  <Ionicons name="calendar-outline" size={36} style={{ marginTop: -3 }}/>
+                  <Text style={{ marginLeft: 10, fontSize: 18, marginTop: 5 }}>{tournamentInformation[1].slice(0, 6)}</Text>
+                </View>
+              </View>
               {tournamentInformation[8] == "N/A" ? null : (
                 <View className="tournamentWindowDistanceAndDuration" style={{ flexDirection: "row"}}>
-                    <Text>{tournamentInformation[8]} km</Text>
-                    <Text>{tournamentInformation[9]} min</Text>
+                  <View className="distanceFromUser" style={{ flexDirection: "row", flex: 1, margin: 10}}>
+                    <Ionicons name="map-outline" size={36} style={{ marginTop: -3, marginLeft: 6 }}/>
+                    <Text style={{ marginLeft: 10, fontSize: 18, marginTop: 5 }}>{tournamentInformation[8]}km</Text>
+                  </View>
+                  <View className="durationToTournament" style={{ flexDirection: "row", flex: 1, margin: 10}}>
+                    <Ionicons name="alarm-outline" size={36} style={{ marginTop: -3 }}/>
+                    <Text style={{ marginLeft: 10, fontSize: 18, marginTop: 5 }}>{Math.floor(Number(tournamentInformation[9])/60)}h{Number(tournamentInformation[9])%60}m</Text>
+                  </View>
                 </View>
               )}
+            </View>
           </View>
         ))} 
         </ScrollView>
