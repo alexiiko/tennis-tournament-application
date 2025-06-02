@@ -13,7 +13,6 @@ export default function main() {
   let [loadingTournamentsInformation, setLoadingTournamentsInformation] = useState(false)
   let [loadedTournamentsAmount, setLoadedTournamentsAmount] = useState(0)
   let [currentlySearching, setCurrentlySearching] = useState(false)
-  let [orsApiSuccess, setOrsApiSuccess] = useState(false) // this variable is for checking wether the duration and distance to a tournament needs to be shown or nor  
 
   const addDurationsAndDistances = async (tournamentsData: any) => {
     let allTournaments = [...tournamentsData]
@@ -23,21 +22,22 @@ export default function main() {
         "An der Geisel 10", 
         tournamentsData[tournamentIndex][5] + ", " + tournamentsData[tournamentIndex][6]
       );
-      
+
+      // the true and false keywords are for checking wether the distance and duration should be shown or not 
       if (Array.isArray(distanceAndDuration)) {
         allTournaments[tournamentIndex] = [
           ...allTournaments[tournamentIndex],
           distanceAndDuration[0], 
-          distanceAndDuration[1]  
+          distanceAndDuration[1],
+          "showDistanceAndDuration"
         ];
-        setOrsApiSuccess(true)
       } else {
         allTournaments[tournamentIndex] = [
           ...allTournaments[tournamentIndex],
           "N/A", 
-          "N/A"  
+          "N/A",
+          "doNotShowDistanceAndDuration"
         ];
-        setOrsApiSuccess(false)
       }
       setLoadedTournamentsAmount(tournamentIndex)
     }
@@ -81,11 +81,11 @@ export default function main() {
   const searchTournaments = async () => {
     setLoadingTournamentsInformation(true)
     setCurrentlySearching(true)
+
     
     const tournamentsData = await renderTournaments()
     
     if (tournamentsData.length > 0) {
-      await addDurationsAndDistances(tournamentsData)
     } else {
       setTournaments([])
     }
@@ -202,8 +202,12 @@ export default function main() {
 
         { loadingTournamentsInformation ? (
           <View className="loadingAnimation" style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", flex: 1}}>
-            <ActivityIndicator size={64} color={"black"} style={{ marginTop: 20}}></ActivityIndicator>
-            <Text style={{ fontSize: 24 }}>{loadedTournamentsAmount}/{tournaments.length}</Text>
+            <View style={{ borderColor: "black", borderWidth: 0.85, borderRadius: 12, backgroundColor: "white", elevation: 4, height: 200, width: 200, justifyContent: "center", alignItems: "center" }}>
+              <ActivityIndicator size={64} color={"black"} style={{ marginTop: 25}}></ActivityIndicator>
+              <View style={{ borderWidth: 0.85, borderRadius: 12, elevation: 6, marginTop: 30, backgroundColor: "white", width: 75, height: 40, justifyContent: "center", alignItems: "center" }}>
+                <Text style={{ fontSize: 24}}>{loadedTournamentsAmount}/{tournaments.length}</Text>
+              </View>
+            </View>
           </View>
         ) : (
         <ScrollView className="tournaments" horizontal={false} showsVerticalScrollIndicator={false} style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}>
@@ -214,8 +218,9 @@ export default function main() {
             flexDirection: "column",
             borderRadius: 36, 
             borderColor: "black",
-            height: orsApiSuccess? 205 : 180,
-            backgroundColor: "white"
+            height: tournamentInformation[10] == "showDistanceAndDuration" ? 205 : 150, // checks wether the orsApi returned relevant data or not
+            backgroundColor: "white",
+            elevation: 4
           }}>
           <View className="tournamentWindowInformation"style={{marginRight: 10, marginLeft: 10, marginTop: 10, marginBottom: 10}}>
             <View className="tournamentWindowLogoAndTitle" style={{ flexDirection: "row" }}>
@@ -374,3 +379,5 @@ const styles = StyleSheet.create({
     borderRadius: 12
   }
 })
+
+// fix showing the distance and duration only if needed  
