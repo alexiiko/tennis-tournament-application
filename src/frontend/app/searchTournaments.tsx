@@ -23,21 +23,22 @@ export default function main() {
         tournamentsData[tournamentIndex][5] + ", " + tournamentsData[tournamentIndex][6]
       );
 
+
       // the true and false keywords are for checking wether the distance and duration should be shown or not 
       if (Array.isArray(distanceAndDuration)) {
         allTournaments[tournamentIndex] = [
           ...allTournaments[tournamentIndex],
           distanceAndDuration[0], 
           distanceAndDuration[1],
-          "showDistanceAndDuration"
         ];
+        allTournaments[tournamentIndex].push(true)
       } else {
         allTournaments[tournamentIndex] = [
           ...allTournaments[tournamentIndex],
           "N/A", 
           "N/A",
-          "doNotShowDistanceAndDuration"
         ];
+        allTournaments[tournamentIndex].push(false)
       }
       setLoadedTournamentsAmount(tournamentIndex)
     }
@@ -86,11 +87,14 @@ export default function main() {
     const tournamentsData = await renderTournaments()
     
     if (tournamentsData.length > 0) {
+      await addDurationsAndDistances(tournamentsData)
     } else {
       setTournaments([])
+      console.log("no tournaments")
     }
     setLoadingTournamentsInformation(false)
     setCurrentlySearching(false)
+
   }
 
   const formatCurrentDate = (date: Date) => {
@@ -132,7 +136,7 @@ export default function main() {
             marginLeft: 5,
             marginRight: 5,
             height: 65,
-            backgroundColor: "white"
+            backgroundColor: "white",
           }}>
           <View className="searchBarIconsAndSelectedAgeClasses" style={{ flexDirection: "row"}}>
             <Button
@@ -218,9 +222,9 @@ export default function main() {
             flexDirection: "column",
             borderRadius: 36, 
             borderColor: "black",
-            height: tournamentInformation[10] == "showDistanceAndDuration" ? 205 : 150, // checks wether the orsApi returned relevant data or not
+            height: tournamentInformation[10]? 205 : 150, // checks wether the orsApi returned relevant data or not
             backgroundColor: "white",
-            elevation: 4
+            elevation: 6
           }}>
           <View className="tournamentWindowInformation"style={{marginRight: 10, marginLeft: 10, marginTop: 10, marginBottom: 10}}>
             <View className="tournamentWindowLogoAndTitle" style={{ flexDirection: "row" }}>
